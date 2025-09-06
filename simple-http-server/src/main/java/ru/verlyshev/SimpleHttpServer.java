@@ -15,6 +15,8 @@ public class SimpleHttpServer {
 
     public static void main(String[] args) throws IOException {
         try (var serverSocket = new ServerSocket(PORT)) {
+            System.out.println("Server start at http://localhost:8080");
+
             getConnection(serverSocket);
         }
     }
