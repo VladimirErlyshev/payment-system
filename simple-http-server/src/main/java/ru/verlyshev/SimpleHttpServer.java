@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 public class SimpleHttpServer {
     private static final int PORT = 8080;
-    private static final String STATIC_DIR = "static";
+    private static final String STATIC_DIR = "simple-http-server/static";
     private static final Path STATIC_PATH = Paths.get(STATIC_DIR).toAbsolutePath();
 
     public static void main(String[] args) throws IOException {
@@ -33,7 +33,7 @@ public class SimpleHttpServer {
         String line;
         var requestedFile = "";
 
-        String requestLine = bufferedReader.readLine();
+        var requestLine = bufferedReader.readLine();
         if (requestLine != null) {
             System.out.println("Request Line: " + requestLine);
             requestedFile = extractFileFromRequestLine(requestLine);
@@ -85,7 +85,7 @@ public class SimpleHttpServer {
         var writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
         var filePath = STATIC_PATH.resolve(requestedFile);
 
-        if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
+        if (Files.exists(filePath)) {
             sendFileContent(writer, filePath, requestedFile);
         } else {
             send404Response(writer, requestedFile);
@@ -124,11 +124,10 @@ public class SimpleHttpServer {
         writer.write("""
                 HTTP/1.1 404 Not Found
                 Content-Type: text/html; charset=UTF-8
-                Content-Length: %s
                 Server: SimpleHttpServer/1.0
                 
                 %s
-                """.formatted(notFoundHtml.length(), notFoundHtml));
+                """.formatted(notFoundHtml));
 
         System.out.println("✗ File not found: " + requestedFile);
         writer.flush();
@@ -141,20 +140,10 @@ public class SimpleHttpServer {
             return "text/html";
         } else if (lowerCase.endsWith(".css")) {
             return "text/css";
-        } else if (lowerCase.endsWith(".js")) {
-            return "application/javascript";
         } else if (lowerCase.endsWith(".json")) {
             return "application/json";
-        } else if (lowerCase.endsWith(".txt")) {
-            return "text/plain";
-        } else if (lowerCase.endsWith(".png")) {
-            return "image/png";
-        } else if (lowerCase.endsWith(".jpg") || lowerCase.endsWith(".jpeg")) {
-            return "image/jpeg";
-        } else if (lowerCase.endsWith(".gif")) {
-            return "image/gif";
         }
-
         return "application/octet-stream";
     }
 }
+
