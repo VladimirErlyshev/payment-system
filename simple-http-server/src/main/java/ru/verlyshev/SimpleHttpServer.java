@@ -17,11 +17,11 @@ public class SimpleHttpServer {
         try (var serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server start at http://localhost:8080");
 
-            setConnection(serverSocket);
+            establishConnection(serverSocket);
         }
     }
 
-    private static void setConnection(ServerSocket serverSocket) throws IOException {
+    private static void establishConnection(ServerSocket serverSocket) throws IOException {
         while (true) {
             try (var connection = serverSocket.accept()) {
                 var requestedFile = "";
