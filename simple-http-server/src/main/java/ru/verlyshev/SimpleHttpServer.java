@@ -28,6 +28,7 @@ public class SimpleHttpServer {
                 try {
                     requestedFile = getFilePathFromRequest(connection);
                 } catch (Exception e) {
+                    send500Response(connection);
                     System.out.printf("Error: %s%n", e.getMessage());
                 }
                 var filePath = STATIC_PATH.resolve(requestedFile);
@@ -139,6 +140,16 @@ public class SimpleHttpServer {
 
         System.out.println("✗ File not found: " + requestedFile);
         writer.flush();
+    }
+
+    private static void send500Response(Socket connection) throws IOException {
+        try (var writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()))) {
+            writer.write("""
+                    HTTP/1.1 500 Internal Server Error
+                    Server: SimpleHttpServer/1.0
+                    """);
+            writer.flush();
+        }
     }
 
     private static String getContentType(String fileName) {
