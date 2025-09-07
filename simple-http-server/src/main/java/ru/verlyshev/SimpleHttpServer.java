@@ -17,40 +17,45 @@ public class SimpleHttpServer {
         try (var serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server start at http://localhost:8080");
 
-            getConnection(serverSocket);
+            setConnection(serverSocket);
         }
     }
 
-    private static void getConnection(ServerSocket serverSocket) throws IOException {
+    private static void setConnection(ServerSocket serverSocket) throws IOException {
         while (true) {
             try (var connection = serverSocket.accept()) {
-                var requestedFile = readRequest(connection);
-                writeResponse(connection, requestedFile);
+                var requestedFile = "";
+                try {
+                    requestedFile = getFilePathFromRequest(connection);
+                } catch (Exception e) {
+                    System.out.printf("Error: %s%n", e.getMessage());
+                }
+                var filePath = STATIC_PATH.resolve(requestedFile);
+                var fileContent = readFileContent(filePath);
+                writeResponse(connection, fileContent, filePath, requestedFile);
             }
         }
     }
 
-    private static String readRequest(Socket connection) throws IOException {
+    private static String getFilePathFromRequest(Socket connection) throws IOException {
         var bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String line;
-        var requestedFile = "";
+        var filePath = "";
 
-        var requestLine = bufferedReader.readLine();
-        if (requestLine != null) {
-            System.out.println("Request Line: " + requestLine);
-            requestedFile = extractFileFromRequestLine(requestLine);
-            while ((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                System.out.println("Header: " + line);
-            }
+        var startLine = bufferedReader.readLine();
+        if (startLine != null) {
+            System.out.println("Start Line: " + startLine);
+            filePath = extractFileNameFromRequestLine(startLine);
 
-            System.out.println("Requested file: " + requestedFile);
+            System.out.println("Requested file: " + filePath);
             System.out.println();
+
+            return filePath;
         }
 
-        return requestedFile;
+        throw new IllegalStateException("Request start line is invalid");
     }
 
-    private static String extractFileFromRequestLine(String requestLine) {
+    private static String extractFileNameFromRequestLine(String requestLine) {
         StringTokenizer tokenizer = new StringTokenizer(requestLine);
 
         if (tokenizer.countTokens() >= 2) {
@@ -63,41 +68,42 @@ public class SimpleHttpServer {
             return extractLastSegment(urlPath);
         }
 
-        return "";
+        throw new IllegalArgumentException("Bad request");
     }
 
     private static String extractLastSegment(String urlPath) {
-        if (urlPath.equals("/") || urlPath.isEmpty()) {
-            return "";
-        }
+        var separator = "/";
 
-        if (urlPath.startsWith("/")) {
-            urlPath = urlPath.substring(1);
-        }
-
-        int lastSlashIndex = urlPath.lastIndexOf('/');
+        int lastSlashIndex = urlPath.lastIndexOf(separator);
         if (lastSlashIndex != -1) {
             return urlPath.substring(lastSlashIndex + 1);
         }
 
-        return urlPath;
+        throw new IllegalArgumentException("URL path is invalid");
     }
 
-    private static void writeResponse(Socket connection, String requestedFile) throws IOException {
+    private static void writeResponse(Socket connection, String fileContent, Path filePath, String requestedFile) throws IOException {
         var writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-        var filePath = STATIC_PATH.resolve(requestedFile);
 
-        if (Files.exists(filePath)) {
-            sendFileContent(writer, filePath, requestedFile);
+        if (fileContent != null) {
+            sendSuccessResponse(writer, fileContent, filePath, requestedFile);
         } else {
             send404Response(writer, requestedFile);
         }
     }
 
-    private static void sendFileContent(BufferedWriter writer, Path filePath, String fileName) throws IOException {
-        var fileContent = Files.readString(filePath);
+    private static String readFileContent(Path filePath) throws IOException {
+        if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
+            return Files.readString(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    private static void sendSuccessResponse(BufferedWriter writer, String fileContent, Path filePath, String fileName) throws IOException {
         var contentType = getContentType(fileName);
         var fileSizeInBytes = Files.size(filePath);
+
         writer.write("""
                 HTTP/1.1 200 OK
                 Content-Type: %s; charset=UTF-8
@@ -106,7 +112,7 @@ public class SimpleHttpServer {
                 %s
                 """.formatted(contentType, fileSizeInBytes, fileContent));
 
-        System.out.println("File served successfully: " + fileName + " (" + fileSizeInBytes + " bytes)");
+        System.out.printf("File served successfully: %s (%d bytes)%n", fileName, fileSizeInBytes);
         writer.flush();
     }
 
@@ -136,7 +142,7 @@ public class SimpleHttpServer {
     }
 
     private static String getContentType(String fileName) {
-        String lowerCase = fileName.toLowerCase();
+        var lowerCase = fileName.toLowerCase();
 
         if (lowerCase.endsWith(".html") || lowerCase.endsWith(".htm")) {
             return "text/html";
