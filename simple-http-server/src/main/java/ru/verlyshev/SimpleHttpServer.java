@@ -24,16 +24,16 @@ public class SimpleHttpServer {
     private static void establishConnection(ServerSocket serverSocket) throws IOException {
         while (true) {
             try (var connection = serverSocket.accept()) {
-                var requestedFile = "";
                 try {
-                    requestedFile = getFilePathFromRequest(connection);
+                    var requestedFile = getFilePathFromRequest(connection);
+                    var filePath = STATIC_PATH.resolve(requestedFile);
+                    var fileContent = readFileContent(filePath);
+                    writeResponse(connection, fileContent, filePath, requestedFile);
                 } catch (Exception e) {
                     send500Response(connection);
                     System.out.printf("Error: %s%n", e.getMessage());
                 }
-                var filePath = STATIC_PATH.resolve(requestedFile);
-                var fileContent = readFileContent(filePath);
-                writeResponse(connection, fileContent, filePath, requestedFile);
+
             }
         }
     }
