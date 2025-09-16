@@ -16,10 +16,10 @@ import java.util.Optional;
 @RequestMapping("/payments")
 public class PaymentController {
     final static Map<Long, Payment> payments = Map.of(
-            1L, new Payment(1, 100),
-            2L, new Payment(2, 12),
-            3L, new Payment(3, 340),
-            4L, new Payment(4, 500)
+        1L, new Payment(1, 100),
+        2L, new Payment(2, 12),
+        3L, new Payment(3, 340),
+        4L, new Payment(4, 500)
     );
 
     @GetMapping("/{id}")
