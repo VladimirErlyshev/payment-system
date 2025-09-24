@@ -1,36 +1,32 @@
 package ru.verlyshev.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.verlyshev.model.Payment;
+import ru.verlyshev.persistence.entity.Payment;
+import ru.verlyshev.persistence.repository.PaymentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/payments")
+@RequiredArgsConstructor
 public class PaymentController {
-    final static Map<Long, Payment> payments = Map.of(
-        1L, new Payment(1, 100),
-        2L, new Payment(2, 12),
-        3L, new Payment(3, 340),
-        4L, new Payment(4, 500)
-    );
+    private final PaymentRepository paymentRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> getPayment(@PathVariable Long id) {
-        return Optional.ofNullable(payments.get(id))
+    public ResponseEntity<Payment> getPayment(@PathVariable("id") UUID id) {
+        return paymentRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     public List<Payment> getAllPayments() {
-        return new ArrayList<>(payments.values());
+        return paymentRepository.findAll();
     }
 }
