@@ -1,10 +1,15 @@
-version: '3.8'
-
 services:
   payment-service-app:
     image: payment-service-app
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payment-db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=secret
+
   postgres:
     image: postgres:16
     container_name: postgres_db
@@ -17,6 +22,7 @@ services:
       LC_MESSAGES: en_US.UTF-8
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -28,6 +34,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
       - postgres
+    restart: unless-stopped
 
 volumes:
   pgdata:

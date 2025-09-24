@@ -26,23 +26,23 @@ public class Payment {
     @Column(name = "guid", nullable = false, unique = true)
     private UUID guid;
 
-    @Column(nullable = false, name = "inquiry_ref_id")
+    @Column(name = "inquiry_ref_id", nullable = false)
     private UUID inquiryRefId;
 
-    @Column(nullable = false, precision = 5, scale = 2)
+    @Column(name = "amount", nullable = false, precision = 5, scale = 2)
     private BigDecimal amount;
 
-    @Column(nullable = false, length = 3)
+    @Column(name = "currency", nullable = false, length = 3)
     private String currency;
 
     @Column(name = "transaction_ref_id")
     private UUID transactionRefId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private PaymentStatus status;
 
-    @Column(columnDefinition = "text")
+    @Column(name = "note", columnDefinition = "text")
     private String note;
 
     @Column(name = "created_at", nullable = false)
