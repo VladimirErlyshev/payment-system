@@ -34,3 +34,7 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   value: "2025-01-01 12:00:00+00"
+      rollback:
+        - delete:
+            tableName: payments
+            where: "guid = 'ac328a1a-1e60-4dd3-bee5-ed573d74c841'"
