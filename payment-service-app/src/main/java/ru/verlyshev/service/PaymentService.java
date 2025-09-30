@@ -18,13 +18,13 @@ public class PaymentService {
     private final PaymentFilterFactory paymentFilterFactory;
 
     public List<Payment> search(PaymentFilter filter) {
-        var spec = paymentFilterFactory.fromFilter(filter);
-        var sort = paymentFilterFactory.getSort(filter);
+        final var spec = paymentFilterFactory.fromFilter(filter);
+        final var sort = paymentFilterFactory.getSort(filter);
         return paymentRepository.findAll(spec, sort);
     }
 
     public Page<Payment> searchPaged(PaymentFilter filter, Pageable pageable) {
-        var spec = paymentFilterFactory.fromFilter(filter);
+        final var spec = paymentFilterFactory.fromFilter(filter);
         return paymentRepository.findAll(spec, pageable);
     }
 }

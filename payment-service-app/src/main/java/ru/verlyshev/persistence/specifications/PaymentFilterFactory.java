@@ -37,7 +37,7 @@ public class PaymentFilterFactory {
             return Sort.unsorted();
         }
 
-        var sortBy = filter.sortBy();
+        final var sortBy = filter.sortBy();
         var direction = Sort.Direction.ASC;
 
         if (StringUtils.hasText(filter.sortDirection()) && filter.sortDirection().equalsIgnoreCase("desc")) {

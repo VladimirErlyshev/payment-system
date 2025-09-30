@@ -20,9 +20,9 @@ public class PaymentController {
 
     @GetMapping("/search")
     public Page<Payment> searchPayments(
-            @ModelAttribute PaymentFilter filter,
-            @PageableDefault(size = 25)
-            Pageable pageable
+        @ModelAttribute PaymentFilter filter,
+        @PageableDefault(size = 25)
+        Pageable pageable
     ) {
         return paymentService.searchPaged(filter, pageable);
     }
