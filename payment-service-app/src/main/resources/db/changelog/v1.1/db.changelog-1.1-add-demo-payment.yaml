@@ -1,40 +1,84 @@
 databaseChangeLog:
   - changeSet:
-      id: 1.1-insert-demo-payment
+      id: 1.1-insert-demo-payments
       author: v.erlyshev
-      comment: "Insert demo payment row for development/testing"
+      comment: "Insert 30 demo payment rows for development/testing"
       changes:
-        - insert:
-            tableName: payments
-            columns:
-              - column:
-                  name: guid
-                  value: "ac328a1a-1e60-4dd3-bee5-ed573d74c841"
-              - column:
-                  name: inquiry_ref_id
-                  value: "607ed0ea-cb8a-4ff8-a694-1213c314e65c"
-              - column:
-                  name: amount
-                  valueNumeric: 99.99
-              - column:
-                  name: currency
-                  value: "USD"
-              - column:
-                  name: transaction_ref_id
-                  value: "f113e373-b7b0-4f38-abf6-ccc3a89b8236"
-              - column:
-                  name: status
-                  value: "RECEIVED"
-              - column:
-                  name: note
-                  value: "Initial test payment"
-              - column:
-                  name: created_at
-                  value: "2025-01-01 12:00:00+00"
-              - column:
-                  name: updated_at
-                  value: "2025-01-01 12:00:00+00"
+        - sql:
+            sql: |
+              INSERT INTO payments (
+                inquiry_ref_id,
+                amount,
+                currency,
+                transaction_ref_id,
+                status,
+                note,
+                created_at,
+                updated_at
+              ) VALUES 
+              ('607ed0ea-cb8a-4ff8-a694-1213c314e65c', 99.99, 'USD', 'f113e373-b7b0-4f38-abf6-ccc3a89b8236', 'RECEIVED', 'Initial test payment', '2025-01-01 12:00:00+00', '2025-01-01 12:00:00+00'),
+              ('718fd1fb-dc9b-4ee9-b795-2324d425d76d', 150.50, 'USD', 'a224f484-c8c1-4d49-bc07-ddd4b9ac9347', 'APPROVED', 'Payment for order #1001', '2025-01-02 10:15:00+00', '2025-01-02 10:20:00+00'),
+              ('829ae2ac-ed0c-4bb0-c806-3435e536e87e', 75.25, 'EUR', 'b335a595-d9d2-4c50-8d18-eee5c0bd0458', 'PENDING', 'Subscription renewal', '2025-01-03 14:30:00+00', '2025-01-03 14:30:00+00'),
+              ('930bf3bd-fe1d-4cc1-9917-4546f647f98f', 200.00, 'GBP', 'c446b606-e0e3-4d61-8e29-fff6d1ce1569', 'DECLINED', 'Insufficient funds', '2025-01-04 09:45:00+00', '2025-01-04 09:50:00+00'),
+              ('a41ca4ce-af2e-4dd2-8a28-5657a758aa9a', 49.99, 'USD', 'd557c717-f1f4-4e72-8f30-aaa7e2df2670', 'RECEIVED', 'Digital product purchase', '2025-01-05 16:20:00+00', '2025-01-05 16:20:00+00'),
+              ('b52db5df-ba3f-4ee3-8b39-6768b869bb0b', 320.75, 'USD', 'e668d828-a2a5-4f83-8a41-bbb8f3ea3781', 'APPROVED', 'Invoice payment #5001', '2025-01-06 11:00:00+00', '2025-01-06 11:05:00+00'),
+              ('c63ec6ea-cb4a-4ff4-8c40-7879c970cc1c', 89.90, 'EUR', 'f779e939-b3b6-4a94-8b52-ccc9a4fb4892', 'DECLINED', 'Customer requested refund', '2025-01-07 13:15:00+00', '2025-01-07 15:30:00+00'),
+              ('d74fd7fb-dc5b-4aa5-8d51-8980d081dd2d', 125.00, 'USD', 'a880f040-c4c7-4b05-8c63-ddd0b5ac5903', 'RECEIVED', 'Monthly membership fee', '2025-01-08 08:00:00+00', '2025-01-08 08:00:00+00'),
+              ('e85ae8ac-ed6c-4bb6-8e62-9091e192ee3e', 450.25, 'GBP', 'b991a151-d5d8-4c16-8d74-eee1c6bd6014', 'PENDING', 'Large transaction verification', '2025-01-09 10:30:00+00', '2025-01-09 10:30:00+00'),
+              ('f96bf9bd-fe7d-4cc7-8f73-0102f203ff4f', 35.50, 'USD', 'c002b262-e6e9-4d27-8e85-fff2d7ce7125', 'APPROVED', 'Coffee shop payment', '2025-01-10 07:45:00+00', '2025-01-10 07:46:00+00'),
+              ('a07ca0ce-af8e-4dd8-8a84-1213a314aa5a', 189.99, 'EUR', 'd113c373-f7f0-4e38-8f96-aaa3e8df8236', 'RECEIVED', 'Annual software license', '2025-01-11 14:20:00+00', '2025-01-11 14:20:00+00'),
+              ('b18db1df-ba9f-4ee9-8b95-2324b425bb6b', 67.80, 'USD', 'e224d484-a8a1-4f49-8a07-bbb4f9ea9347', 'DECLINED', 'Card declined', '2025-01-12 12:10:00+00', '2025-01-12 12:11:00+00'),
+              ('c29ec2ea-cb0a-4ff0-8c06-3435c536cc7c', 299.00, 'GBP', 'f335e595-b9b2-4a50-8b18-ccc5a0fb0458', 'APPROVED', 'Consulting services', '2025-01-13 09:00:00+00', '2025-01-13 09:30:00+00'),
+              ('d30fd3fb-dc1b-4aa1-8d17-4546d647dd8d', 15.99, 'USD', 'a446f606-c0c3-4b61-8c29-ddd6b1ac1569', 'RECEIVED', 'E-book purchase', '2025-01-14 18:45:00+00', '2025-01-14 18:45:00+00'),
+              ('e41ae4ac-ed2c-4bb2-8e28-5657e758ee9e', 540.00, 'EUR', 'b557a717-d1d4-4c72-8d30-eee7c2bd2670', 'PENDING', 'Hotel reservation', '2025-01-15 11:20:00+00', '2025-01-15 11:20:00+00'),
+              ('f52bf5bd-fe3d-4cc3-8f39-6768f869ff0f', 99.99, 'USD', 'c668b828-e2e5-4d83-8e41-fff8d3ce3781', 'APPROVED', 'Online course payment', '2025-01-16 15:00:00+00', '2025-01-16 15:05:00+00'),
+              ('a63ca6ce-af4e-4dd4-8a40-7879a970aa1a', 175.50, 'GBP', 'd779c939-f3f6-4e94-8f52-aaa9e4df4892', 'DECLINED', 'Service cancellation', '2025-01-17 10:15:00+00', '2025-01-17 12:00:00+00'),
+              ('b74db7df-ba5f-4ee5-8b51-8980b081bb2b', 88.88, 'USD', 'e880d040-a4a7-4f05-8a63-bbb0f5ea5903', 'RECEIVED', 'Lucky number payment', '2025-01-18 13:33:00+00', '2025-01-18 13:33:00+00'),
+              ('c85ec8ea-cb6a-4ff6-8c62-9091c192cc3c', 420.00, 'EUR', 'f991e151-b5b8-4a16-8b74-ccc1a6fb6014', 'APPROVED', 'Freelance work payment', '2025-01-19 16:00:00+00', '2025-01-19 16:10:00+00'),
+              ('d96fd9fb-dc7b-4aa7-8d73-0102d203dd4d', 25.00, 'USD', 'a002f262-c6c9-4b27-8c85-ddd2b7ac7125', 'PENDING', 'Donation to charity', '2025-01-20 09:30:00+00', '2025-01-20 09:30:00+00'),
+              ('e07ae0ac-ed8c-4bb8-8e84-1213e314ee5e', 155.75, 'GBP', 'b113a373-d7d0-4c38-8d96-eee3c8bd8236', 'RECEIVED', 'Equipment rental', '2025-01-21 11:45:00+00', '2025-01-21 11:45:00+00'),
+              ('f18bf1bd-fe9d-4cc9-8f95-2324f425ff6f', 79.99, 'USD', 'c224b484-e8e1-4d49-8e07-fff4d9ce9347', 'DECLINED', 'Payment timeout', '2025-01-22 14:00:00+00', '2025-01-22 14:05:00+00'),
+              ('a29ca2ce-af0e-4dd0-8a06-3435a536aa7a', 330.00, 'EUR', 'd335c595-f9f2-4e50-8f18-aaa5e0df0458', 'APPROVED', 'Conference ticket', '2025-01-23 08:15:00+00', '2025-01-23 08:20:00+00'),
+              ('b30db3df-ba1f-4ee1-8b17-4546b647bb8b', 12.50, 'USD', 'e446d606-a0a3-4f61-8a29-bbb6f1ea1569', 'RECEIVED', 'Parking fee', '2025-01-24 17:30:00+00', '2025-01-24 17:30:00+00'),
+              ('c41ec4ea-cb2a-4ff2-8c28-5657c758cc9c', 265.00, 'GBP', 'f557e717-b1b4-4a72-8b30-ccc7a2fb2670', 'PENDING', 'Legal consultation', '2025-01-25 10:00:00+00', '2025-01-25 10:00:00+00'),
+              ('d52fd5fb-dc3b-4aa3-8d39-6768d869dd0d', 99.00, 'USD', 'a668f828-c2c5-4b83-8c41-ddd8b3ac3781', 'APPROVED', 'Gym membership', '2025-01-26 07:00:00+00', '2025-01-26 07:05:00+00'),
+              ('e63ae6ac-ed4c-4bb4-8e40-7879e970ee1e', 185.25, 'EUR', 'b779a939-d3d6-4c94-8d52-eee9c4bd4892', 'NOT_SENT', 'Payment pending processing', '2025-01-27 12:30:00+00', '2025-01-27 12:30:00+00'),
+              ('f74bf7bd-fe5d-4cc5-8f51-8980f081ff2f', 55.55, 'USD', 'c880b040-e4e7-4d05-8e63-fff0d5ce5903', 'RECEIVED', 'Pet supplies order', '2025-01-28 15:15:00+00', '2025-01-28 15:15:00+00'),
+              ('a85ca8ce-af6e-4dd6-8a62-9091a192aa3a', 410.00, 'GBP', 'd991c151-f5f8-4e16-8f74-aaa1e6df6014', 'APPROVED', 'Web design project', '2025-01-29 09:45:00+00', '2025-01-29 10:00:00+00'),
+              ('b96db9df-ba7f-4ee7-8b73-0102b203bb4b', 29.99, 'USD', 'e002d262-a6a9-4f27-8a85-bbb2f7ea7125', 'RECEIVED', 'Streaming subscription', '2025-01-30 20:00:00+00', '2025-01-30 20:00:00+00');
       rollback:
-        - delete:
-            tableName: payments
-            where: "guid = 'ac328a1a-1e60-4dd3-bee5-ed573d74c841'"
+        - sql:
+            sql: |
+              DELETE FROM payments 
+              WHERE inquiry_ref_id IN (
+                '607ed0ea-cb8a-4ff8-a694-1213c314e65c',
+                '718fd1fb-dc9b-4ee9-b795-2324d425d76d',
+                '829ae2ac-ed0c-4bb0-c806-3435e536e87e',
+                '930bf3bd-fe1d-4cc1-9917-4546f647f98f',
+                'a41ca4ce-af2e-4dd2-8a28-5657a758aa9a',
+                'b52db5df-ba3f-4ee3-8b39-6768b869bb0b',
+                'c63ec6ea-cb4a-4ff4-8c40-7879c970cc1c',
+                'd74fd7fb-dc5b-4aa5-8d51-8980d081dd2d',
+                'e85ae8ac-ed6c-4bb6-8e62-9091e192ee3e',
+                'f96bf9bd-fe7d-4cc7-8f73-0102f203ff4f',
+                'a07ca0ce-af8e-4dd8-8a84-1213a314aa5a',
+                'b18db1df-ba9f-4ee9-8b95-2324b425bb6b',
+                'c29ec2ea-cb0a-4ff0-8c06-3435c536cc7c',
+                'd30fd3fb-dc1b-4aa1-8d17-4546d647dd8d',
+                'e41ae4ac-ed2c-4bb2-8e28-5657e758ee9e',
+                'f52bf5bd-fe3d-4cc3-8f39-6768f869ff0f',
+                'a63ca6ce-af4e-4dd4-8a40-7879a970aa1a',
+                'b74db7df-ba5f-4ee5-8b51-8980b081bb2b',
+                'c85ec8ea-cb6a-4ff6-8c62-9091c192cc3c',
+                'd96fd9fb-dc7b-4aa7-8d73-0102d203dd4d',
+                'e07ae0ac-ed8c-4bb8-8e84-1213e314ee5e',
+                'f18bf1bd-fe9d-4cc9-8f95-2324f425ff6f',
+                'a29ca2ce-af0e-4dd0-8a06-3435a536aa7a',
+                'b30db3df-ba1f-4ee1-8b17-4546b647bb8b',
+                'c41ec4ea-cb2a-4ff2-8c28-5657c758cc9c',
+                'd52fd5fb-dc3b-4aa3-8d39-6768d869dd0d',
+                'e63ae6ac-ed4c-4bb4-8e40-7879e970ee1e',
+                'f74bf7bd-fe5d-4cc5-8f51-8980f081ff2f',
+                'a85ca8ce-af6e-4dd6-8a62-9091a192aa3a',
+                'b96db9df-ba7f-4ee7-8b73-0102b203bb4b'
+              );

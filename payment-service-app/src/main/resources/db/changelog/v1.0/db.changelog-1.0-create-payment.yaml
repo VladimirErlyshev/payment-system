@@ -9,6 +9,7 @@ databaseChangeLog:
               - column:
                   name: guid
                   type: uuid
+                  defaultValueComputed: gen_random_uuid()
                   constraints:
                     primaryKey: true
                     nullable: false
