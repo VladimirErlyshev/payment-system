@@ -26,8 +26,6 @@ public class PaymentController {
         @PageableDefault(size = 25)
         Pageable pageable
     ) {
-        var test = paymentRepository.findFirstOrderByAmountDesc();
-        System.out.println(test);
         return paymentService.searchPaged(filter, pageable);
     }
 }
