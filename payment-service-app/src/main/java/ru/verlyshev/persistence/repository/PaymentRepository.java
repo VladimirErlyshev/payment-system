@@ -16,9 +16,9 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID>, JpaSpec
 
     List<Payment> findByCurrency(String currency);
 
-    Optional<Payment> findFirstByOrderByAmountAsc();
+    Optional<Payment> findFirstOrderByAmountAsc();
 
-    Optional<Payment> findFirstByOrderByAmountDesc();
+    Optional<Payment> findFirstOrderByAmountDesc();
 
     List<Payment> findByAmountBetween(BigDecimal minAmount, BigDecimal maxAmount);
 

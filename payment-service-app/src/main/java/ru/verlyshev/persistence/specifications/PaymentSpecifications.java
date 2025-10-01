@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PaymentSpecifications {
+
     public static Specification<Payment> hasCurrency(String currency) {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("currency"), currency);

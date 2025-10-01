@@ -15,16 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
-    private final PaymentFilterFactory paymentFilterFactory;
 
     public List<Payment> search(PaymentFilter filter) {
-        final var spec = paymentFilterFactory.fromFilter(filter);
-        final var sort = paymentFilterFactory.getSort(filter);
+        final var spec = PaymentFilterFactory.fromFilter(filter);
+        final var sort = PaymentFilterFactory.getSort(filter);
         return paymentRepository.findAll(spec, sort);
     }
 
     public Page<Payment> searchPaged(PaymentFilter filter, Pageable pageable) {
-        final var spec = paymentFilterFactory.fromFilter(filter);
+        final var spec = PaymentFilterFactory.fromFilter(filter);
         return paymentRepository.findAll(spec, pageable);
     }
 }

@@ -20,7 +20,7 @@ databaseChangeLog:
             tag: v1.0
 
   - include:
-      file: v1.1/db.changelog-1.1-add-demo-payment.yaml
+      file: v1.1/db.changelog-1.1-add-demo-payment.sql
       relativeToChangelogFile: true
 
   - changeSet:
