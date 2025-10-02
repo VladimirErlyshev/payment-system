@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.verlyshev.model.PaymentFilter;
 import ru.verlyshev.persistence.entity.Payment;
-import ru.verlyshev.persistence.repository.PaymentRepository;
 import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 import ru.verlyshev.service.PaymentService;
 
@@ -20,7 +19,6 @@ import ru.verlyshev.service.PaymentService;
 @RequiredArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;
-    private final PaymentRepository paymentRepository;
 
     @GetMapping("/search")
     public Page<Payment> searchPayments(
