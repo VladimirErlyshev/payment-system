@@ -43,39 +43,6 @@ INSERT INTO payments (
 ('f74bf7bd-fe5d-4cc5-8f51-8980f081ff2f', 55.55, 'USD', 'c880b040-e4e7-4d05-8e63-fff0d5ce5903', 'RECEIVED', 'Pet supplies order', '2025-01-28 15:15:00+00', '2025-01-28 15:15:00+00'),
 ('a85ca8ce-af6e-4dd6-8a62-9091a192aa3a', 410.00, 'GBP', 'd991c151-f5f8-4e16-8f74-aaa1e6df6014', 'APPROVED', 'Web design project', '2025-01-29 09:45:00+00', '2025-01-29 10:00:00+00'),
 ('b96db9df-ba7f-4ee7-8b73-0102b203bb4b', 29.99, 'USD', 'e002d262-a6a9-4f27-8a85-bbb2f7ea7125', 'RECEIVED', 'Streaming subscription', '2025-01-30 20:00:00+00', '2025-01-30 20:00:00+00');
+-- endDelimiter:;
 
---rollback
-DELETE FROM payments
-WHERE inquiry_ref_id IN (
-  '607ed0ea-cb8a-4ff8-a694-1213c314e65c',
-  '718fd1fb-dc9b-4ee9-b795-2324d425d76d',
-  '829ae2ac-ed0c-4bb0-c806-3435e536e87e',
-  '930bf3bd-fe1d-4cc1-9917-4546f647f98f',
-  'a41ca4ce-af2e-4dd2-8a28-5657a758aa9a',
-  'b52db5df-ba3f-4ee3-8b39-6768b869bb0b',
-  'c63ec6ea-cb4a-4ff4-8c40-7879c970cc1c',
-  'd74fd7fb-dc5b-4aa5-8d51-8980d081dd2d',
-  'e85ae8ac-ed6c-4bb6-8e62-9091e192ee3e',
-  'f96bf9bd-fe7d-4cc7-8f73-0102f203ff4f',
-  'a07ca0ce-af8e-4dd8-8a84-1213a314aa5a',
-  'b18db1df-ba9f-4ee9-8b95-2324b425bb6b',
-  'c29ec2ea-cb0a-4ff0-8c06-3435c536cc7c',
-  'd30fd3fb-dc1b-4aa1-8d17-4546d647dd8d',
-  'e41ae4ac-ed2c-4bb2-8e28-5657e758ee9e',
-  'f52bf5bd-fe3d-4cc3-8f39-6768f869ff0f',
-  'a63ca6ce-af4e-4dd4-8a40-7879a970aa1a',
-  'b74db7df-ba5f-4ee5-8b51-8980b081bb2b',
-  'c85ec8ea-cb6a-4ff6-8c62-9091c192cc3c',
-  'd96fd9fb-dc7b-4aa7-8d73-0102d203dd4d',
-  'e07ae0ac-ed8c-4bb8-8e84-1213e314ee5e',
-  'f18bf1bd-fe9d-4cc9-8f95-2324f425ff6f',
-  'a29ca2ce-af0e-4dd0-8a06-3435a536aa7a',
-  'b30db3df-ba1f-4ee1-8b17-4546b647bb8b',
-  'c41ec4ea-cb2a-4ff2-8c28-5657c758cc9c',
-  'd52fd5fb-dc3b-4aa3-8d39-6768d869dd0d',
-  'e63ae6ac-ed4c-4bb4-8e40-7879e970ee1e',
-  'f74bf7bd-fe5d-4cc5-8f51-8980f081ff2f',
-  'a85ca8ce-af6e-4dd6-8a62-9091a192aa3a',
-  'b96db9df-ba7f-4ee7-8b73-0102b203bb4b'
-);
---rollback end
+--rollback DELETE FROM payments WHERE inquiry_ref_id IN ('607ed0ea-cb8a-4ff8-a694-1213c314e65c','718fd1fb-dc9b-4ee9-b795-2324d425d76d','829ae2ac-ed0c-4bb0-c806-3435e536e87e','930bf3bd-fe1d-4cc1-9917-4546f647f98f','a41ca4ce-af2e-4dd2-8a28-5657a758aa9a','b52db5df-ba3f-4ee3-8b39-6768b869bb0b','c63ec6ea-cb4a-4ff4-8c40-7879c970cc1c','d74fd7fb-dc5b-4aa5-8d51-8980d081dd2d','e85ae8ac-ed6c-4bb6-8e62-9091e192ee3e','f96bf9bd-fe7d-4cc7-8f73-0102f203ff4f','a07ca0ce-af8e-4dd8-8a84-1213a314aa5a','b18db1df-ba9f-4ee9-8b95-2324b425bb6b','c29ec2ea-cb0a-4ff0-8c06-3435c536cc7c','d30fd3fb-dc1b-4aa1-8d17-4546d647dd8d','e41ae4ac-ed2c-4bb2-8e28-5657e758ee9e','f52bf5bd-fe3d-4cc3-8f39-6768f869ff0f','a63ca6ce-af4e-4dd4-8a40-7879a970aa1a','b74db7df-ba5f-4ee5-8b51-8980b081bb2b','c85ec8ea-cb6a-4ff6-8c62-9091c192cc3c','d96fd9fb-dc7b-4aa7-8d73-0102d203dd4d','e07ae0ac-ed8c-4bb8-8e84-1213e314ee5e','f18bf1bd-fe9d-4cc9-8f95-2324f425ff6f','a29ca2ce-af0e-4dd0-8a06-3435a536aa7a','b30db3df-ba1f-4ee1-8b17-4546b647bb8b','c41ec4ea-cb2a-4ff2-8c28-5657c758cc9c','d52fd5fb-dc3b-4aa3-8d39-6768d869dd0d','e63ae6ac-ed4c-4bb4-8e40-7879e970ee1e','f74bf7bd-fe5d-4cc5-8f51-8980f081ff2f','a85ca8ce-af6e-4dd6-8a62-9091a192aa3a','b96db9df-ba7f-4ee7-8b73-0102b203bb4b');

@@ -2,7 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: tag-0.0
       author: v.erlyshev
-      context: init
+      #context: init
       comment: "Tag for empty database"
       changes:
         - tagDatabase:
