@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.verlyshev.model.PaymentFilter;
-import ru.verlyshev.persistence.entity.Payment;
+import ru.verlyshev.dto.PaymentDto;
+import ru.verlyshev.dto.PaymentFilterDto;
+import ru.verlyshev.mapper.PaymentFilterMapper;
 import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 import ru.verlyshev.service.PaymentService;
 
@@ -18,14 +19,15 @@ import ru.verlyshev.service.PaymentService;
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentService paymentService;
+    private final PaymentService paymentServiceImpl;
+    private final PaymentFilterMapper paymentFilterMapper;
 
     @GetMapping("/search")
-    public Page<Payment> searchPayments(
-        @ModelAttribute PaymentFilter filter,
+    public Page<PaymentDto> searchPayments(
+        @ModelAttribute PaymentFilterDto filter,
         @PageableDefault(size = 25) Pageable pageable
     ) {
-        final var sort = PaymentFilterFactory.getSort(filter);
+        final var sort = PaymentFilterFactory.getSort(paymentFilterMapper.toEntityFilter(filter));
         if (sort.isSorted()) {
             pageable = PageRequest.of(
                     pageable.getPageNumber(),
@@ -34,6 +36,6 @@ public class PaymentController {
             );
         }
 
-        return paymentService.searchPaged(filter, pageable);
+        return paymentServiceImpl.searchPaged(filter, pageable);
     }
 }
