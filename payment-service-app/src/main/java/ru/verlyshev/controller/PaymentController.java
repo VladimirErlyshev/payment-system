@@ -19,7 +19,7 @@ import ru.verlyshev.service.PaymentService;
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentService paymentServiceImpl;
+    private final PaymentService paymentService;
     private final PaymentFilterMapper paymentFilterMapper;
 
     @GetMapping("/search")
@@ -36,6 +36,6 @@ public class PaymentController {
             );
         }
 
-        return paymentServiceImpl.searchPaged(filter, pageable);
+        return paymentService.searchPaged(filter, pageable);
     }
 }
