@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.verlyshev.dto.PaymentDto;
-import ru.verlyshev.dto.PaymentFilterDto;
+import ru.verlyshev.response.PaymentResponse;
+import ru.verlyshev.request.PaymentFilterRequest;
 import ru.verlyshev.mapper.PaymentFilterMapper;
 import ru.verlyshev.mapper.PaymentMapper;
 import ru.verlyshev.persistence.repository.PaymentRepository;
@@ -20,14 +20,16 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
     private final PaymentFilterMapper paymentFilterMapper;
 
-    public List<PaymentDto> search(PaymentFilterDto filter) {
-        final var spec = PaymentFilterFactory.fromFilter(paymentFilterMapper.toEntityFilter(filter));
-        final var sort = PaymentFilterFactory.getSort(paymentFilterMapper.toEntityFilter(filter));
-        return paymentRepository.findAll(spec, sort).stream().map(paymentMapper::toDto).toList();
+    public List<PaymentResponse> search(PaymentFilterRequest filter) {
+        final var entityFilter = paymentFilterMapper.fromRequest(filter);
+        final var spec = PaymentFilterFactory.fromFilter(entityFilter);
+        final var sort = PaymentFilterFactory.getSort(entityFilter);
+        return paymentRepository.findAll(spec, sort).stream().map(paymentMapper::toResponse).toList();
     }
 
-    public Page<PaymentDto> searchPaged(PaymentFilterDto filter, Pageable pageable) {
-        final var spec = PaymentFilterFactory.fromFilter(paymentFilterMapper.toEntityFilter(filter));
-        return paymentRepository.findAll(spec, pageable).map(paymentMapper::toDto);
+    public Page<PaymentResponse> searchPaged(PaymentFilterRequest filter, Pageable pageable) {
+        final var entityFilter = paymentFilterMapper.fromRequest(filter);
+        final var spec = PaymentFilterFactory.fromFilter(entityFilter);
+        return paymentRepository.findAll(spec, pageable).map(paymentMapper::toResponse);
     }
 }

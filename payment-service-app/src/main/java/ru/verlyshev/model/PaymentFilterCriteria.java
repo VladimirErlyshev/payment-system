@@ -5,7 +5,7 @@ import ru.verlyshev.persistence.entity.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-public record PaymentFilter(
+public record PaymentFilterCriteria(
     String currency,
     BigDecimal minAmount,
     BigDecimal maxAmount,

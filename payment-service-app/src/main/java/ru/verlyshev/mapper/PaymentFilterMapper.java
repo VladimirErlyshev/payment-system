@@ -2,11 +2,11 @@ package ru.verlyshev.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
-import ru.verlyshev.dto.PaymentFilterDto;
-import ru.verlyshev.model.PaymentFilter;
+import ru.verlyshev.request.PaymentFilterRequest;
+import ru.verlyshev.model.PaymentFilterCriteria;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PaymentFilterMapper {
-    PaymentFilterDto toFilterDto(PaymentFilter filter);
-    PaymentFilter toEntityFilter(PaymentFilterDto filterDto);
+    PaymentFilterRequest toRequest(PaymentFilterCriteria filter);
+    PaymentFilterCriteria fromRequest(PaymentFilterRequest filterDto);
 }

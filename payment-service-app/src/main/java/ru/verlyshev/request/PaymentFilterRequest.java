@@ -1,11 +1,11 @@
-package ru.verlyshev.dto;
+package ru.verlyshev.request;
 
 import ru.verlyshev.persistence.entity.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-public record PaymentFilterDto(
+public record PaymentFilterRequest(
     String currency,
     BigDecimal minAmount,
     BigDecimal maxAmount,

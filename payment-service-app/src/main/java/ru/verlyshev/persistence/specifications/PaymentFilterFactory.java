@@ -4,14 +4,14 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import ru.verlyshev.model.PaymentFilter;
+import ru.verlyshev.model.PaymentFilterCriteria;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.Payment_;
 
 import java.util.ArrayList;
 
 public class PaymentFilterFactory {
-    public static Specification<Payment> fromFilter(PaymentFilter filter) {
+    public static Specification<Payment> fromFilter(PaymentFilterCriteria filter) {
         return (root, query, criteriaBuilder) -> {
             final var predicates = new ArrayList<Predicate>();
 
@@ -37,7 +37,7 @@ public class PaymentFilterFactory {
         };
     }
 
-    public static Sort getSort(PaymentFilter filter) {
+    public static Sort getSort(PaymentFilterCriteria filter) {
         final var sortBy = filter.sortBy();
         if (!StringUtils.hasText(sortBy)) {
             return Sort.unsorted();
