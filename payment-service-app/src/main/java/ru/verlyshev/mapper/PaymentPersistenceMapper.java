@@ -8,6 +8,6 @@ import ru.verlyshev.persistence.entity.Payment;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PaymentPersistenceMapper {
-    PaymentDto fromPaymentEntity(Payment payment);
     Payment toPaymentEntity(PaymentDto response);
+    PaymentDto fromPaymentEntity(Payment payment);
 }

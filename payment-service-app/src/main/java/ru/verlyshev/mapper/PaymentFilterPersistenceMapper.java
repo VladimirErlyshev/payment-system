@@ -8,6 +8,6 @@ import ru.verlyshev.model.PaymentFilterCriteria;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PaymentFilterPersistenceMapper {
-    PaymentFilterDto fromFilterCriteria(PaymentFilterCriteria filter);
     PaymentFilterCriteria toFilterCriteria(PaymentFilterDto filterDto);
+    PaymentFilterDto fromFilterCriteria(PaymentFilterCriteria filter);
 }
