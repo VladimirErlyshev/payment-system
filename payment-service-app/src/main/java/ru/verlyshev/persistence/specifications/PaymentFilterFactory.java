@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import ru.verlyshev.model.PaymentFilterCriteria;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.Payment_;
 

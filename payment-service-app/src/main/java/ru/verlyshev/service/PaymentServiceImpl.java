@@ -5,10 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.dto.PaymentFilterDto;
 import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
-import ru.verlyshev.response.PaymentResponse;
 import ru.verlyshev.mapper.PaymentControllerMapper;
 import ru.verlyshev.persistence.repository.PaymentRepository;
 import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentPersistenceMapper paymentPersistenceMapper;
 
     @Override
-    public List<PaymentResponse> search(PaymentFilterDto filterDto) {
+    public List<PaymentDto> search(PaymentFilterDto filterDto) {
         final var criteriaFilter = paymentFilterPersistenceMapper.toFilterCriteria(filterDto);
         final var spec = PaymentFilterFactory.fromFilter(criteriaFilter);
         final var sort = PaymentFilterFactory.getSort(criteriaFilter);
@@ -32,11 +32,10 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.findAll(spec, sort)
                 .stream()
                 .map(paymentPersistenceMapper::fromPaymentEntity)
-                .map(paymentControllerMapper::toResponse)
                 .toList();
     }
 
-    public Page<PaymentResponse> searchPaged(PaymentFilterDto filterDto, Pageable pageable) {
+    public Page<PaymentDto> searchPaged(PaymentFilterDto filterDto, Pageable pageable) {
         final var criteriaFilter = paymentFilterPersistenceMapper.toFilterCriteria(filterDto);
         final var spec = PaymentFilterFactory.fromFilter(criteriaFilter);
         final var sort = PaymentFilterFactory.getSort(criteriaFilter);
@@ -46,7 +45,6 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         return paymentRepository.findAll(spec, pageable)
-                .map(paymentPersistenceMapper::fromPaymentEntity)
-                .map(paymentControllerMapper::toResponse);
+                .map(paymentPersistenceMapper::fromPaymentEntity);
     }
 }

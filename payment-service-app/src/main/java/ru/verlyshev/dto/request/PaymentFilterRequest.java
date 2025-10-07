@@ -1,4 +1,4 @@
-package ru.verlyshev.request;
+package ru.verlyshev.dto.request;
 
 import ru.verlyshev.persistence.entity.PaymentStatus;
 

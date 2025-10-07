@@ -1,4 +1,4 @@
-package ru.verlyshev.model;
+package ru.verlyshev.persistence.specifications;
 
 import ru.verlyshev.persistence.entity.PaymentStatus;
 

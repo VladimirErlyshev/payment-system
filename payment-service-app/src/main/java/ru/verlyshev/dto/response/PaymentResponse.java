@@ -1,4 +1,4 @@
-package ru.verlyshev.response;
+package ru.verlyshev.dto.response;
 
 import ru.verlyshev.persistence.entity.PaymentStatus;
 

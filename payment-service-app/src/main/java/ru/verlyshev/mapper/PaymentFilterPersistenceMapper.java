@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import ru.verlyshev.dto.PaymentFilterDto;
-import ru.verlyshev.model.PaymentFilterCriteria;
+import ru.verlyshev.persistence.specifications.PaymentFilterCriteria;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PaymentFilterPersistenceMapper {
