@@ -2,12 +2,14 @@ package ru.verlyshev.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.verlyshev.dto.PaymentFilterDto;
+import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
+import ru.verlyshev.mapper.PaymentPersistenceMapper;
 import ru.verlyshev.response.PaymentResponse;
-import ru.verlyshev.request.PaymentFilterRequest;
-import ru.verlyshev.mapper.PaymentFilterMapper;
-import ru.verlyshev.mapper.PaymentMapper;
+import ru.verlyshev.mapper.PaymentControllerMapper;
 import ru.verlyshev.persistence.repository.PaymentRepository;
 import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 
@@ -17,19 +19,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
-    private final PaymentMapper paymentMapper;
-    private final PaymentFilterMapper paymentFilterMapper;
+    private final PaymentControllerMapper paymentControllerMapper;
+    private final PaymentFilterPersistenceMapper paymentFilterPersistenceMapper;
+    private final PaymentPersistenceMapper paymentPersistenceMapper;
 
-    public List<PaymentResponse> search(PaymentFilterRequest filter) {
-        final var entityFilter = paymentFilterMapper.fromRequest(filter);
-        final var spec = PaymentFilterFactory.fromFilter(entityFilter);
-        final var sort = PaymentFilterFactory.getSort(entityFilter);
-        return paymentRepository.findAll(spec, sort).stream().map(paymentMapper::toResponse).toList();
+    @Override
+    public List<PaymentResponse> search(PaymentFilterDto filterDto) {
+        final var criteriaFilter = paymentFilterPersistenceMapper.toFilterCriteria(filterDto);
+        final var spec = PaymentFilterFactory.fromFilter(criteriaFilter);
+        final var sort = PaymentFilterFactory.getSort(criteriaFilter);
+
+        return paymentRepository.findAll(spec, sort)
+                .stream()
+                .map(paymentPersistenceMapper::fromPaymentEntity)
+                .map(paymentControllerMapper::toResponse)
+                .toList();
     }
 
-    public Page<PaymentResponse> searchPaged(PaymentFilterRequest filter, Pageable pageable) {
-        final var entityFilter = paymentFilterMapper.fromRequest(filter);
-        final var spec = PaymentFilterFactory.fromFilter(entityFilter);
-        return paymentRepository.findAll(spec, pageable).map(paymentMapper::toResponse);
+    public Page<PaymentResponse> searchPaged(PaymentFilterDto filterDto, Pageable pageable) {
+        final var criteriaFilter = paymentFilterPersistenceMapper.toFilterCriteria(filterDto);
+        final var spec = PaymentFilterFactory.fromFilter(criteriaFilter);
+        final var sort = PaymentFilterFactory.getSort(criteriaFilter);
+
+        if (sort.isSorted()) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        }
+
+        return paymentRepository.findAll(spec, pageable)
+                .map(paymentPersistenceMapper::fromPaymentEntity)
+                .map(paymentControllerMapper::toResponse);
     }
 }
