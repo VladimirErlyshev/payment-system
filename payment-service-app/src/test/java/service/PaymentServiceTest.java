@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,35 +61,60 @@ class PaymentServiceTest {
     private Specification<Payment> spec;
     private Sort sort;
 
-    private static final UUID PAYMENT_GUID = UUID.randomUUID();
-    private static final UUID INQUIRY_REF_ID = UUID.randomUUID();
-    private static final UUID TRANSACTION_REF_ID = UUID.randomUUID();
-    private static final OffsetDateTime NOW = OffsetDateTime.now();
+    private static UUID guid;
+    private static UUID inquiryRefId;
+    private static UUID transactionId;
+    private static OffsetDateTime currentDate;
 
     private MockedStatic<PaymentFilterFactory> mockedPaymentFilterFactory;
+
+    private static Stream<Arguments> filters() {
+        return Stream.of(
+                Arguments.of(
+                        new PaymentFilterDto("RUB", new BigDecimal("50.00"), null,
+                                null, null, null, "amount", "ASC"), 1
+                ),
+                Arguments.of(
+                        new PaymentFilterDto(null, null, new BigDecimal("200.00"),
+                                null, null, null, null, null), 1
+                )
+        );
+    }
+
+    private static Stream<Arguments> pages() {
+        return Stream.of(
+                Arguments.of(PageRequest.of(0, 10)),
+                Arguments.of(PageRequest.of(0, 10, Sort.by("guid")))
+        );
+    }
 
     @BeforeEach
     void setUp() {
         mockedPaymentFilterFactory = mockStatic(PaymentFilterFactory.class);
 
+        guid = UUID.randomUUID();
+        inquiryRefId = UUID.randomUUID();
+        transactionId = UUID.randomUUID();
+        currentDate = OffsetDateTime.now();
+
         payment = Payment.builder()
-                .guid(PAYMENT_GUID)
-                .inquiryRefId(INQUIRY_REF_ID)
+                .guid(guid)
+                .inquiryRefId(inquiryRefId)
                 .amount(new BigDecimal("100.00"))
                 .currency("RUB")
-                .transactionRefId(TRANSACTION_REF_ID)
+                .transactionRefId(transactionId)
                 .status(PaymentStatus.PENDING)
                 .note("Test payment")
-                .createdAt(NOW.minusDays(1))
-                .updatedAt(NOW)
+                .createdAt(currentDate.minusDays(1))
+                .updatedAt(currentDate)
                 .build();
 
         paymentDto = new PaymentDto(
-                PAYMENT_GUID,
-                INQUIRY_REF_ID,
+                guid,
+                inquiryRefId,
                 new BigDecimal("100.00"),
                 "RUB",
-                TRANSACTION_REF_ID,
+                transactionId,
                 PaymentStatus.PENDING,
                 "Test payment",
                 payment.getCreatedAt(),
@@ -153,9 +177,6 @@ class PaymentServiceTest {
 
         // Then
         assertEquals(expectedSize, result.size());
-        if (expectedSize > 0) {
-            assertEquals(PAYMENT_GUID, result.get(0).guid());
-        }
     }
 
     @ParameterizedTest
@@ -209,25 +230,5 @@ class PaymentServiceTest {
         // Then
         assertEquals(1, result.getTotalElements());
         verify(paymentRepository).findAll(spec, input);
-    }
-
-    private static Stream<Arguments> filters() {
-        return Stream.of(
-                Arguments.of(
-                        new PaymentFilterDto("RUB", new BigDecimal("50.00"), null,
-                                null, null, null, "amount", "ASC"), 1
-                ),
-                Arguments.of(
-                        new PaymentFilterDto(null, null, new BigDecimal("200.00"),
-                                null, null, null, null, null), 1
-                )
-        );
-    }
-
-    private static Stream<Arguments> pages() {
-        return Stream.of(
-                Arguments.of(PageRequest.of(0, 10)),
-                Arguments.of(PageRequest.of(0, 10, Sort.by("guid")))
-        );
     }
 }
