@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class MapperTestConfiguration {
+public abstract class TestConfiguration {
     protected UUID id;
     protected UUID transactionId;
     protected UUID inquiryRefId;
@@ -21,31 +21,37 @@ public abstract class MapperTestConfiguration {
     protected PaymentStatus status;
     protected String note;
 
-    protected Payment generatePayment() {
+    protected Payment generatePayment(UUID guid, UUID inquiryRefId, BigDecimal amount,
+                                      String currency, UUID transactionRefId,
+                                      PaymentStatus status, String note,
+                                      OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         return Payment.builder()
-                .guid(id)
+                .guid(guid)
                 .inquiryRefId(inquiryRefId)
                 .amount(amount)
                 .currency(currency)
-                .transactionRefId(transactionId)
+                .transactionRefId(transactionRefId)
                 .status(status)
                 .note(note)
-                .createdAt(createDate)
-                .updatedAt(currentDate)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
 
-    protected PaymentDto generatePaymentDto() {
+    protected PaymentDto generatePaymentDto(UUID guid, UUID inquiryRefId, BigDecimal amount,
+                                            String currency, UUID transactionRefId,
+                                            PaymentStatus status, String note,
+                                            OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         return new PaymentDto(
-                id,
+                guid,
                 inquiryRefId,
                 amount,
                 currency,
-                transactionId,
+                transactionRefId,
                 status,
                 note,
-                createDate,
-                currentDate
+                createdAt,
+                updatedAt
         );
     }
 

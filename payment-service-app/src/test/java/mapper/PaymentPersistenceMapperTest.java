@@ -1,6 +1,6 @@
 package mapper;
 
-import configuration.MapperTestConfiguration;
+import configuration.TestConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-class PaymentPersistenceMapperTest extends MapperTestConfiguration {
+class PaymentPersistenceMapperTest extends TestConfiguration {
     private final PaymentPersistenceMapper mapper = Mappers.getMapper(PaymentPersistenceMapper.class);
 
     @BeforeEach
@@ -30,7 +30,8 @@ class PaymentPersistenceMapperTest extends MapperTestConfiguration {
     @Test
     void shouldMapToDto() {
         //given
-        var payment = generatePayment();
+        var payment = generatePayment(id, transactionId, amount, currency,
+                transactionId, status, note, createDate, currentDate);
 
         //when
         var paymentDto = mapper.fromPaymentEntity(payment);
@@ -39,12 +40,11 @@ class PaymentPersistenceMapperTest extends MapperTestConfiguration {
         checkPaymentDto(paymentDto, payment);
     }
 
-
-
     @Test
     void shouldMapToEntity() {
         //given
-        var paymentDto = generatePaymentDto();
+        var paymentDto = generatePaymentDto(id, transactionId, amount, currency,
+                transactionId, status, note, createDate, currentDate);
 
         //when
         var payment = mapper.toPaymentEntity(paymentDto);
