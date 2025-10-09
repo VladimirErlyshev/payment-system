@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class PaymentFilterFactory {
     public static Specification<Payment> fromFilter(PaymentFilterCriteria filter) {
+        System.out.println("🔥 PaymentFilterFactory.fromFilter called with: " + filter);
         return (root, query, criteriaBuilder) -> {
             final var predicates = new ArrayList<Predicate>();
 

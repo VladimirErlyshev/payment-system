@@ -22,6 +22,7 @@ class PaymentPersistenceMapperTest {
     private UUID id;
     private UUID transactionId;
     private UUID inquiryRefId;
+    private OffsetDateTime createDate;
     private OffsetDateTime currentDate;
     private BigDecimal amount;
     private String currency;
@@ -33,12 +34,12 @@ class PaymentPersistenceMapperTest {
         id = UUID.randomUUID();
         transactionId = UUID.randomUUID();
         inquiryRefId = UUID.randomUUID();
+        createDate = OffsetDateTime.now().minusDays(1);
         currentDate = OffsetDateTime.now();
-        amount = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(1000))
-                .setScale(2, RoundingMode.HALF_UP);
-        currency = RandomString.make(3);
-        status = PaymentStatus.values()[ThreadLocalRandom.current().nextInt(PaymentStatus.values().length)];
-        note = RandomString.make(10);
+        amount = new BigDecimal("123.45");
+        currency = "RUB";
+        status = PaymentStatus.APPROVED;
+        note = "TEST NOTE";
     }
 
     @Test
@@ -52,7 +53,7 @@ class PaymentPersistenceMapperTest {
                 .transactionRefId(transactionId)
                 .status(status)
                 .note(note)
-                .createdAt(currentDate)
+                .createdAt(createDate)
                 .updatedAt(currentDate)
                 .build();
 
@@ -68,7 +69,7 @@ class PaymentPersistenceMapperTest {
         assertThat(paymentDto.transactionRefId()).isEqualTo(transactionId);
         assertThat(paymentDto.status()).isEqualTo(status);
         assertThat(paymentDto.note()).isEqualTo(note);
-        assertThat(paymentDto.createdAt()).isEqualTo(currentDate);
+        assertThat(paymentDto.createdAt()).isEqualTo(createDate);
         assertThat(paymentDto.updatedAt()).isEqualTo(currentDate);
     }
 
@@ -83,7 +84,7 @@ class PaymentPersistenceMapperTest {
                 transactionId,
                 status,
                 note,
-                currentDate,
+                createDate,
                 currentDate
         );
 
@@ -99,7 +100,7 @@ class PaymentPersistenceMapperTest {
         assertThat(payment.getTransactionRefId()).isEqualTo(transactionId);
         assertThat(payment.getStatus()).isEqualTo(status);
         assertThat(payment.getNote()).isEqualTo(note);
-        assertThat(payment.getCreatedAt()).isEqualTo(currentDate);
+        assertThat(payment.getCreatedAt()).isEqualTo(createDate);
         assertThat(payment.getUpdatedAt()).isEqualTo(currentDate);
     }
 }
