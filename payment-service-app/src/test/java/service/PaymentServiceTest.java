@@ -28,11 +28,14 @@ import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 import ru.verlyshev.service.PaymentServiceImpl;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
+import static fixtures.TestFixtures.createDate;
+import static fixtures.TestFixtures.currentDate;
+import static fixtures.TestFixtures.id;
+import static fixtures.TestFixtures.inquiryRefId;
+import static fixtures.TestFixtures.transactionId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -61,11 +64,6 @@ class PaymentServiceTest {
     private Specification<Payment> spec;
     private Sort sort;
 
-    private static UUID guid;
-    private static UUID inquiryRefId;
-    private static UUID transactionId;
-    private static OffsetDateTime currentDate;
-
     private MockedStatic<PaymentFilterFactory> mockedPaymentFilterFactory;
 
     private static Stream<Arguments> filters() {
@@ -92,25 +90,20 @@ class PaymentServiceTest {
     void setUp() {
         mockedPaymentFilterFactory = mockStatic(PaymentFilterFactory.class);
 
-        guid = UUID.randomUUID();
-        inquiryRefId = UUID.randomUUID();
-        transactionId = UUID.randomUUID();
-        currentDate = OffsetDateTime.now();
-
         payment = Payment.builder()
-                .guid(guid)
+                .guid(id)
                 .inquiryRefId(inquiryRefId)
                 .amount(new BigDecimal("100.00"))
                 .currency("RUB")
                 .transactionRefId(transactionId)
                 .status(PaymentStatus.PENDING)
                 .note("Test payment")
-                .createdAt(currentDate.minusDays(1))
+                .createdAt(createDate)
                 .updatedAt(currentDate)
                 .build();
 
         paymentDto = new PaymentDto(
-                guid,
+                id,
                 inquiryRefId,
                 new BigDecimal("100.00"),
                 "RUB",
