@@ -1,5 +1,8 @@
 package configuration;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.PaymentStatus;
@@ -7,55 +10,51 @@ import ru.verlyshev.persistence.entity.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class TestConfiguration {
-    protected UUID id;
-    protected UUID transactionId;
-    protected UUID inquiryRefId;
-    protected OffsetDateTime createDate;
-    protected OffsetDateTime currentDate;
-    protected BigDecimal amount;
-    protected String currency;
-    protected PaymentStatus status;
-    protected String note;
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class TestFixtures {
+    public static UUID id = UUID.randomUUID();
+    public static UUID transactionId = UUID.randomUUID();
+    public static UUID inquiryRefId = UUID.randomUUID();
+    public static OffsetDateTime createDate = OffsetDateTime.now().minusDays(1);
+    public static OffsetDateTime currentDate = OffsetDateTime.now();
+    public static BigDecimal amount = generateRandomAmount();
+    public static String currency = generateRandomCurrency();
+    public static PaymentStatus status = getRandomStatus();
+    public static String note= RandomStringUtils.randomAlphabetic(10);
 
-    protected Payment generatePayment(UUID guid, UUID inquiryRefId, BigDecimal amount,
-                                      String currency, UUID transactionRefId,
-                                      PaymentStatus status, String note,
-                                      OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public static Payment generatePayment() {
         return Payment.builder()
-                .guid(guid)
+                .guid(id)
                 .inquiryRefId(inquiryRefId)
                 .amount(amount)
                 .currency(currency)
-                .transactionRefId(transactionRefId)
+                .transactionRefId(transactionId)
                 .status(status)
                 .note(note)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
+                .createdAt(createDate)
+                .updatedAt(currentDate)
                 .build();
     }
 
-    protected PaymentDto generatePaymentDto(UUID guid, UUID inquiryRefId, BigDecimal amount,
-                                            String currency, UUID transactionRefId,
-                                            PaymentStatus status, String note,
-                                            OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public static PaymentDto generatePaymentDto() {
         return new PaymentDto(
-                guid,
+                id,
                 inquiryRefId,
                 amount,
                 currency,
-                transactionRefId,
+                transactionId,
                 status,
                 note,
-                createdAt,
-                updatedAt
+                createDate,
+                currentDate
         );
     }
 
-    protected void checkPaymentDto(PaymentDto paymentDto, Payment payment) {
+    public static void checkPaymentDto(PaymentDto paymentDto, Payment payment) {
         assertThat(paymentDto).isNotNull();
         assertThat(paymentDto.guid()).isEqualTo(payment.getGuid());
         assertThat(paymentDto.inquiryRefId()).isEqualTo(payment.getInquiryRefId());
@@ -68,7 +67,7 @@ public abstract class TestConfiguration {
         assertThat(paymentDto.updatedAt()).isEqualTo(payment.getUpdatedAt());
     }
 
-    protected void checkPayment(Payment payment, PaymentDto paymentDto) {
+    public static void checkPayment(Payment payment, PaymentDto paymentDto) {
         assertThat(payment).isNotNull();
         assertThat(payment.getGuid()).isEqualTo(paymentDto.guid());
         assertThat(payment.getInquiryRefId()).isEqualTo(paymentDto.inquiryRefId());
@@ -79,5 +78,24 @@ public abstract class TestConfiguration {
         assertThat(payment.getNote()).isEqualTo(paymentDto.note());
         assertThat(payment.getCreatedAt()).isEqualTo(paymentDto.createdAt());
         assertThat(payment.getUpdatedAt()).isEqualTo(paymentDto.updatedAt());
+    }
+
+    private static BigDecimal generateRandomAmount() {
+        var cents = ThreadLocalRandom.current().nextInt(100000);
+        return BigDecimal.valueOf(cents, 2);
+    }
+
+    private static String generateRandomCurrency() {
+        return ThreadLocalRandom.current()
+                .ints(3, 'A', 'Z' + 1)
+                .collect(StringBuilder::new,
+                        StringBuilder::appendCodePoint,
+                        StringBuilder::append)
+                .toString();
+    }
+
+    private static PaymentStatus getRandomStatus() {
+        var index = ThreadLocalRandom.current().nextInt(PaymentStatus.values().length);
+        return PaymentStatus.values()[index];
     }
 }
