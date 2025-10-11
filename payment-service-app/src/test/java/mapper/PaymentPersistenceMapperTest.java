@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
 
-import static configuration.TestFixtures.checkPayment;
-import static configuration.TestFixtures.checkPaymentDto;
-import static configuration.TestFixtures.generatePayment;
-import static configuration.TestFixtures.generatePaymentDto;
+import static fixtures.TestFixtures.checkPayment;
+import static fixtures.TestFixtures.checkPaymentDto;
+import static fixtures.TestFixtures.generatePayment;
+import static fixtures.TestFixtures.generatePaymentDto;
 
 class PaymentPersistenceMapperTest {
     private final PaymentPersistenceMapper mapper = Mappers.getMapper(PaymentPersistenceMapper.class);
