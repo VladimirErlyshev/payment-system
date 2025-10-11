@@ -24,7 +24,7 @@ public final class TestFixtures {
     public static BigDecimal amount = generateRandomAmount();
     public static String currency = generateRandomCurrency();
     public static PaymentStatus status = getRandomStatus();
-    public static String note= RandomStringUtils.randomAlphabetic(10);
+    public static String note = RandomStringUtils.randomAlphabetic(10);
 
     public static Payment generatePayment() {
         return Payment.builder()
