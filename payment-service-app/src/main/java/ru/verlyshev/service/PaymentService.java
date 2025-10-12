@@ -8,9 +8,15 @@ import ru.verlyshev.dto.PaymentFilterDto;
 import java.util.UUID;
 
 public interface PaymentService {
-    PaymentDto findById(UUID id);
+    PaymentDto getPaymentById(UUID guid);
 
     Page<PaymentDto> searchPaged(PaymentFilterDto filter, Pageable pageable);
 
     PaymentDto create(PaymentDto paymentDto);
+
+    PaymentDto update(UUID id, PaymentDto paymentDto);
+
+    void delete(UUID id);
+
+    public PaymentDto updateNote(UUID id, String note);
 }
