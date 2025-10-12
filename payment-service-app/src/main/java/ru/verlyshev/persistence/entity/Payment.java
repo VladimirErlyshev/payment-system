@@ -66,7 +66,7 @@ public class Payment {
         if (this.guid == null) {
             this.guid = UUID.randomUUID();
         }
-        var now = OffsetDateTime.now();
+        final var now = OffsetDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
     }

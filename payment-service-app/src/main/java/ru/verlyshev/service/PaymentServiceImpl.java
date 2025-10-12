@@ -25,8 +25,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto getPaymentById(UUID guid) {
         final var result = paymentRepository
-                .findById(guid)
-                .orElseThrow(() -> new IllegalArgumentException("Payment not found with id: %s".formatted(guid)));
+            .findById(guid)
+            .orElseThrow(() -> new IllegalArgumentException("Payment not found with id: %s".formatted(guid)));
         return paymentPersistenceMapper.fromPaymentEntity(result);
     }
 
@@ -54,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto update(UUID id, PaymentDto paymentDto) {
         final var existing = paymentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
+            .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
 
         final var updated = paymentPersistenceMapper.toPaymentEntity(paymentDto);
         updated.setGuid(existing.getGuid());
@@ -76,7 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto updateNote(UUID id, String note) {
         final var existing = paymentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
+            .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
 
         existing.setNote(note);
         final var saved = paymentRepository.save(existing);

@@ -55,16 +55,16 @@ public class PaymentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PaymentResponse> create(@RequestBody @Valid PaymentRequest request) {
-        PaymentDto paymentDto = new PaymentDto(
-                null,
-                request.inquiryRefId(),
-                request.amount(),
-                request.currency(),
-                request.transactionRefId(),
-                request.status(),
-                request.note(),
-                null,
-                null
+        final var paymentDto = new PaymentDto(
+            null,
+            request.inquiryRefId(),
+            request.amount(),
+            request.currency(),
+            request.transactionRefId(),
+            request.status(),
+            request.note(),
+            null,
+            null
         );
 
         final var savedDto = paymentService.create(paymentDto);
@@ -76,15 +76,15 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> update(@PathVariable UUID id, @RequestBody @Valid PaymentRequest request) {
         final var existingDto = paymentService.getPaymentById(id);
         final var dtoToUpdate = new PaymentDto(
-                existingDto.guid(),
-                request.inquiryRefId(),
-                request.amount(),
-                request.currency(),
-                request.transactionRefId(),
-                request.status(),
-                request.note(),
-                existingDto.createdAt(),
-                null
+            existingDto.guid(),
+            request.inquiryRefId(),
+            request.amount(),
+            request.currency(),
+            request.transactionRefId(),
+            request.status(),
+            request.note(),
+            existingDto.createdAt(),
+            null
         );
 
         final var updatedDto = paymentService.update(id, dtoToUpdate);
