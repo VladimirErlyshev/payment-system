@@ -66,19 +66,6 @@ class PaymentServiceTest {
 
     private MockedStatic<PaymentFilterFactory> mockedPaymentFilterFactory;
 
-    private static Stream<Arguments> filters() {
-        return Stream.of(
-                Arguments.of(
-                        new PaymentFilterDto("RUB", new BigDecimal("50.00"), null,
-                                null, null, null, "amount", "ASC"), 1
-                ),
-                Arguments.of(
-                        new PaymentFilterDto(null, null, new BigDecimal("200.00"),
-                                null, null, null, null, null), 1
-                )
-        );
-    }
-
     private static Stream<Arguments> pages() {
         return Stream.of(
                 Arguments.of(PageRequest.of(0, 10)),
@@ -157,19 +144,6 @@ class PaymentServiceTest {
         if (mockedPaymentFilterFactory != null) {
             mockedPaymentFilterFactory.close();
         }
-    }
-
-    @ParameterizedTest
-    @MethodSource("filters")
-    void searchFiltered(PaymentFilterDto filter, int expectedSize) {
-        // Given
-        when(paymentRepository.findAll(spec, sort)).thenReturn(List.of(payment));
-
-        // When
-        var result = service.search(filter);
-
-        // Then
-        assertEquals(expectedSize, result.size());
     }
 
     @ParameterizedTest

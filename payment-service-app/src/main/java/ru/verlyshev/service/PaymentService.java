@@ -5,10 +5,12 @@ import org.springframework.data.domain.Pageable;
 import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.dto.PaymentFilterDto;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface PaymentService {
-    List<PaymentDto> search(PaymentFilterDto filter);
+    PaymentDto findById(UUID id);
 
     Page<PaymentDto> searchPaged(PaymentFilterDto filter, Pageable pageable);
+
+    PaymentDto create(PaymentDto paymentDto);
 }
