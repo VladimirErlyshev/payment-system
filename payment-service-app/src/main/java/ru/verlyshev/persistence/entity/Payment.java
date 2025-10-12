@@ -4,8 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -65,7 +63,10 @@ public class Payment {
 
     @PrePersist
     protected void onCreate() {
-        OffsetDateTime now = OffsetDateTime.now();
+        if (this.guid == null) {
+            this.guid = UUID.randomUUID();
+        }
+        var now = OffsetDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
     }
