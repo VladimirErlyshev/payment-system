@@ -16,7 +16,7 @@ import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 
 import java.util.UUID;
 
-import static ru.verlyshev.execption.ExceptionMessages.PAYMENT_NOT_FOUND;
+import static ru.verlyshev.exception.ExceptionMessages.PAYMENT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
