@@ -57,10 +57,12 @@ public class Payment {
     @Column(name = "created_at",
         nullable = false,
         updatable = false,
-        columnDefinition = "timestamptz DEFAULT now()")
+        insertable = false)
     private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at",
+        nullable = false,
+        insertable = false)
     private OffsetDateTime updatedAt;
 
     @PreUpdate
