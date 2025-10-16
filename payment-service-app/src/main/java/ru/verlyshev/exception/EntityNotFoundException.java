@@ -6,7 +6,7 @@ import ru.verlyshev.dto.enums.OperationType;
 import java.util.UUID;
 
 @Getter
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends BasePaymentServiceException {
     private final UUID id;
     private final OperationType operation;
 
