@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -56,9 +55,9 @@ public class Payment {
     private String note;
 
     @Column(name = "created_at",
-            nullable = false,
-            updatable = false,
-            columnDefinition = "timestamptz DEFAULT now()")
+        nullable = false,
+        updatable = false,
+        columnDefinition = "timestamptz DEFAULT now()")
     private OffsetDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)

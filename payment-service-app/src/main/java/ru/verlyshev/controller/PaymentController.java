@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.dto.request.PaymentFilterRequest;
 import ru.verlyshev.dto.request.PaymentRequest;
 import ru.verlyshev.dto.request.UpdatePaymentNoteRequest;
@@ -80,7 +79,8 @@ public class PaymentController {
     }
 
     @PatchMapping("/{id}/note")
-    public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id, @RequestBody UpdatePaymentNoteRequest request) {
+    public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id,
+        @RequestBody UpdatePaymentNoteRequest request) {
         final var updatedDto = paymentService.updateNote(id, request.note());
         final var response = paymentControllerMapper.toResponse(updatedDto);
 
