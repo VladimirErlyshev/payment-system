@@ -39,10 +39,10 @@ import static fixtures.TestFixtures.id;
 import static fixtures.TestFixtures.inquiryRefId;
 import static fixtures.TestFixtures.transactionId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -315,18 +315,6 @@ class PaymentServiceTest {
                 .updatedAt(currentDate)
                 .build();
 
-        Payment updatedMappedEntity = Payment.builder()
-                .guid(null)
-                .inquiryRefId(inquiryRefId)
-                .amount(new BigDecimal("200.00"))
-                .currency("USD")
-                .transactionRefId(transactionId)
-                .status(PaymentStatus.APPROVED)
-                .note("Updated note")
-                .createdAt(null)
-                .updatedAt(null)
-                .build();
-
         Payment savedEntity = Payment.builder()
                 .guid(paymentId)
                 .inquiryRefId(inquiryRefId)
@@ -336,7 +324,7 @@ class PaymentServiceTest {
                 .status(PaymentStatus.APPROVED)
                 .note("Updated note")
                 .createdAt(createDate)
-                .updatedAt(currentDate)
+                .updatedAt(currentDate) // или обновляется автоматически
                 .build();
 
         PaymentDto expectedDto = new PaymentDto(
@@ -351,9 +339,20 @@ class PaymentServiceTest {
                 currentDate
         );
 
-        when(paymentRepository.findById(paymentId)).thenReturn(Optional.of(existingEntity));
-        when(paymentPersistenceMapper.toPaymentEntity(updateDto)).thenReturn(updatedMappedEntity);
-        when(paymentRepository.save(any(Payment.class))).thenReturn(savedEntity);
+        when(paymentRepository.findByIdWithLock(paymentId)).thenReturn(Optional.of(existingEntity));
+
+        doAnswer(invocation -> {
+            PaymentDto dto = invocation.getArgument(0);
+            Payment entity = invocation.getArgument(1);
+            entity.setAmount(dto.amount());
+            entity.setCurrency(dto.currency());
+            entity.setTransactionRefId(dto.transactionRefId());
+            entity.setStatus(dto.status());
+            entity.setNote(dto.note());
+            return null;
+        }).when(paymentPersistenceMapper).updatePaymentEntityFromDto(eq(updateDto), eq(existingEntity));
+
+        when(paymentRepository.save(existingEntity)).thenReturn(savedEntity);
         when(paymentPersistenceMapper.fromPaymentEntity(savedEntity)).thenReturn(expectedDto);
 
         // When
@@ -361,15 +360,14 @@ class PaymentServiceTest {
 
         // Then
         assertEquals(expectedDto, result);
-        verify(paymentRepository).findById(paymentId);
-        verify(paymentRepository).save(argThat(payment -> {
-            return payment.getGuid().equals(paymentId) &&
-                    payment.getCreatedAt().equals(createDate) &&
-                    payment.getCurrency().equals("USD") &&
-                    payment.getAmount().equals(new BigDecimal("200.00")) &&
-                    payment.getNote().equals("Updated note");
-        }));
+        verify(paymentRepository).findByIdWithLock(paymentId);
+        verify(paymentPersistenceMapper).updatePaymentEntityFromDto(eq(updateDto), eq(existingEntity));
+        verify(paymentRepository).save(same(existingEntity));
         verify(paymentPersistenceMapper).fromPaymentEntity(savedEntity);
+
+        assertEquals("USD", existingEntity.getCurrency());
+        assertEquals(new BigDecimal("200.00"), existingEntity.getAmount());
+        assertEquals(createDate, existingEntity.getCreatedAt());
     }
 
     @Test
