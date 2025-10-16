@@ -29,6 +29,8 @@ import ru.verlyshev.service.PaymentServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static fixtures.TestFixtures.createDate;
@@ -38,6 +40,11 @@ import static fixtures.TestFixtures.inquiryRefId;
 import static fixtures.TestFixtures.transactionId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
@@ -52,7 +59,7 @@ class PaymentServiceTest {
     private PaymentFilterPersistenceMapper filterMapper;
 
     @Mock
-    private PaymentPersistenceMapper dtoMapper;
+    private PaymentPersistenceMapper paymentPersistenceMapper;
 
     @InjectMocks
     private PaymentServiceImpl service;
@@ -65,19 +72,6 @@ class PaymentServiceTest {
     private Sort sort;
 
     private MockedStatic<PaymentFilterFactory> mockedPaymentFilterFactory;
-
-    private static Stream<Arguments> filters() {
-        return Stream.of(
-                Arguments.of(
-                        new PaymentFilterDto("RUB", new BigDecimal("50.00"), null,
-                                null, null, null, "amount", "ASC"), 1
-                ),
-                Arguments.of(
-                        new PaymentFilterDto(null, null, new BigDecimal("200.00"),
-                                null, null, null, null, null), 1
-                )
-        );
-    }
 
     private static Stream<Arguments> pages() {
         return Stream.of(
@@ -139,8 +133,7 @@ class PaymentServiceTest {
         spec = mock(Specification.class);
         sort = Sort.by(Sort.Direction.ASC, "amount");
 
-        when(filterMapper.toFilterCriteria(any(PaymentFilterDto.class)))
-                .thenReturn(criteria);
+
 
         mockedPaymentFilterFactory.when(() -> PaymentFilterFactory.fromFilter(any(PaymentFilterCriteria.class)))
                 .thenReturn(spec);
@@ -148,7 +141,7 @@ class PaymentServiceTest {
         mockedPaymentFilterFactory.when(() -> PaymentFilterFactory.getSort(any(PaymentFilterCriteria.class)))
                 .thenReturn(sort);
 
-        when(dtoMapper.fromPaymentEntity(any(Payment.class)))
+        lenient().when(paymentPersistenceMapper.fromPaymentEntity(any(Payment.class)))
                 .thenReturn(paymentDto);
     }
 
@@ -160,26 +153,16 @@ class PaymentServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("filters")
-    void searchFiltered(PaymentFilterDto filter, int expectedSize) {
-        // Given
-        when(paymentRepository.findAll(spec, sort)).thenReturn(List.of(payment));
-
-        // When
-        var result = service.search(filter);
-
-        // Then
-        assertEquals(expectedSize, result.size());
-    }
-
-    @ParameterizedTest
     @MethodSource("pages")
     void searchPaged(Pageable pageable) {
+        // Given
         when(paymentRepository.findAll(any(Specification.class), any(Pageable.class)))
                 .thenAnswer(invocation -> {
                     Pageable actualPageable = invocation.getArgument(1);
                     return new PageImpl<>(List.of(payment), actualPageable, 1);
                 });
+        when(filterMapper.toFilterCriteria(any(PaymentFilterDto.class)))
+                .thenReturn(criteria);
 
         // When
         var result = service.searchPaged(filterDto, pageable);
@@ -195,6 +178,8 @@ class PaymentServiceTest {
         // Given
         Pageable input = PageRequest.of(0, 10, Sort.by("guid"));
         Pageable expected = PageRequest.of(0, 10, sort);
+        when(filterMapper.toFilterCriteria(any(PaymentFilterDto.class)))
+                .thenReturn(criteria);
         when(paymentRepository.findAll(spec, expected))
                 .thenReturn(new PageImpl<>(List.of(payment), expected, 1));
 
@@ -217,11 +202,188 @@ class PaymentServiceTest {
         when(paymentRepository.findAll(spec, input))
                 .thenReturn(new PageImpl<>(List.of(payment), input, 1));
 
+        when(filterMapper.toFilterCriteria(any(PaymentFilterDto.class)))
+                .thenReturn(criteria);
+
         // When
         var result = service.searchPaged(filterDto, input);
 
         // Then
         assertEquals(1, result.getTotalElements());
         verify(paymentRepository).findAll(spec, input);
+    }
+
+    @Test
+    void shouldSaveAndReturnMappedDto() {
+        // Given
+        PaymentDto inputDto = new PaymentDto(
+                null,
+                inquiryRefId,
+                new BigDecimal("100.00"),
+                "RUB",
+                transactionId,
+                PaymentStatus.PENDING,
+                "Test payment",
+                null,
+                null
+        );
+
+        Payment savedEntity = Payment.builder()
+                .guid(id)
+                .inquiryRefId(inquiryRefId)
+                .amount(new BigDecimal("100.00"))
+                .currency("RUB")
+                .transactionRefId(transactionId)
+                .status(PaymentStatus.PENDING)
+                .note("Test payment")
+                .createdAt(currentDate)
+                .updatedAt(currentDate)
+                .build();
+
+        PaymentDto expectedDto = new PaymentDto(
+                id,
+                inquiryRefId,
+                new BigDecimal("100.00"),
+                "RUB",
+                transactionId,
+                PaymentStatus.PENDING,
+                "Test payment",
+                currentDate,
+                currentDate
+        );
+
+        when(paymentPersistenceMapper.toPaymentEntity(inputDto)).thenReturn(savedEntity);
+
+        when(paymentRepository.save(savedEntity)).thenReturn(savedEntity);
+
+        when(paymentPersistenceMapper.fromPaymentEntity(savedEntity)).thenReturn(expectedDto);
+
+        // When
+        PaymentDto result = service.create(inputDto);
+
+        // Then
+        assertEquals(expectedDto, result);
+        verify(paymentPersistenceMapper).toPaymentEntity(inputDto);
+        verify(paymentRepository).save(savedEntity);
+        verify(paymentPersistenceMapper).fromPaymentEntity(savedEntity);
+    }
+
+    @Test
+    void shouldReturnMappedDtoWhenPaymentExists() {
+        // Given
+        var testGuid = id;
+
+        when(paymentRepository.findById(testGuid)).thenReturn(java.util.Optional.of(payment));
+
+        when(paymentPersistenceMapper.fromPaymentEntity(payment)).thenReturn(paymentDto);
+
+        // When
+        PaymentDto result = service.getPaymentById(testGuid);
+
+        // Then
+        assertEquals(paymentDto, result);
+        verify(paymentRepository).findById(testGuid);
+        verify(paymentPersistenceMapper).fromPaymentEntity(payment);
+    }
+
+    @Test
+    void shouldUpdateExistingPaymentAndPreserveAuditFields() {
+        // Given
+        UUID paymentId = id;
+
+        PaymentDto updateDto = new PaymentDto(
+                null,
+                inquiryRefId,
+                new BigDecimal("200.00"),
+                "USD",
+                transactionId,
+                PaymentStatus.APPROVED,
+                "Updated note",
+                null,
+                null
+        );
+
+        Payment existingEntity = Payment.builder()
+                .guid(paymentId)
+                .inquiryRefId(inquiryRefId)
+                .amount(new BigDecimal("100.00"))
+                .currency("RUB")
+                .transactionRefId(transactionId)
+                .status(PaymentStatus.PENDING)
+                .note("Test payment")
+                .createdAt(createDate)
+                .updatedAt(currentDate)
+                .build();
+
+        Payment savedEntity = Payment.builder()
+                .guid(paymentId)
+                .inquiryRefId(inquiryRefId)
+                .amount(new BigDecimal("200.00"))
+                .currency("USD")
+                .transactionRefId(transactionId)
+                .status(PaymentStatus.APPROVED)
+                .note("Updated note")
+                .createdAt(createDate)
+                .updatedAt(currentDate) // или обновляется автоматически
+                .build();
+
+        PaymentDto expectedDto = new PaymentDto(
+                paymentId,
+                inquiryRefId,
+                new BigDecimal("200.00"),
+                "USD",
+                transactionId,
+                PaymentStatus.APPROVED,
+                "Updated note",
+                createDate,
+                currentDate
+        );
+
+        when(paymentRepository.findByIdWithLock(paymentId)).thenReturn(Optional.of(existingEntity));
+
+        doAnswer(invocation -> {
+            PaymentDto dto = invocation.getArgument(0);
+            Payment entity = invocation.getArgument(1);
+            entity.setAmount(dto.amount());
+            entity.setCurrency(dto.currency());
+            entity.setTransactionRefId(dto.transactionRefId());
+            entity.setStatus(dto.status());
+            entity.setNote(dto.note());
+            return null;
+        }).when(paymentPersistenceMapper).updatePaymentEntityFromDto(eq(updateDto), eq(existingEntity));
+
+        when(paymentRepository.save(existingEntity)).thenReturn(savedEntity);
+        when(paymentPersistenceMapper.fromPaymentEntity(savedEntity)).thenReturn(expectedDto);
+
+        // When
+        PaymentDto result = service.update(paymentId, updateDto);
+
+        // Then
+        assertEquals(expectedDto, result);
+        verify(paymentRepository).findByIdWithLock(paymentId);
+        verify(paymentPersistenceMapper).updatePaymentEntityFromDto(eq(updateDto), eq(existingEntity));
+        verify(paymentRepository).save(same(existingEntity));
+        verify(paymentPersistenceMapper).fromPaymentEntity(savedEntity);
+
+        assertEquals("USD", existingEntity.getCurrency());
+        assertEquals(new BigDecimal("200.00"), existingEntity.getAmount());
+        assertEquals(createDate, existingEntity.getCreatedAt());
+    }
+
+    @Test
+    void shouldDeletePaymentWhenExists() {
+        // Given
+        var paymentId = id;
+
+        when(paymentRepository.existsById(paymentId)).thenReturn(true);
+
+        doNothing().when(paymentRepository).deleteById(paymentId);
+
+        // When
+        service.delete(paymentId);
+
+        // Then
+        verify(paymentRepository).existsById(paymentId);
+        verify(paymentRepository).deleteById(paymentId);
     }
 }

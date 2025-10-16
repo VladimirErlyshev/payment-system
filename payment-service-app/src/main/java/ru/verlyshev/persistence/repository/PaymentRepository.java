@@ -1,7 +1,10 @@
 package ru.verlyshev.persistence.repository;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 
@@ -27,4 +30,8 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID>, JpaSpec
     List<Payment> findByCreatedAtAfter(OffsetDateTime dateTime);
 
     List<Payment> findByCreatedAtBetween(OffsetDateTime startDateTime, OffsetDateTime endDateTime);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT p FROM Payment p WHERE p.guid = :guid")
+    Optional<Payment> findByIdWithLock(UUID guid);
 }
