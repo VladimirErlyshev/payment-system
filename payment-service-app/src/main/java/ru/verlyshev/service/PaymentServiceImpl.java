@@ -1,6 +1,7 @@
 package ru.verlyshev.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,8 @@ import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 
 import java.util.UUID;
 
+import static ru.verlyshev.execption.ExceptionMessages.PAYMENT_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -24,10 +27,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto getPaymentById(UUID guid) {
-        final var result = paymentRepository
+        return paymentRepository
             .findById(guid)
-            .orElseThrow(() -> new IllegalArgumentException("Payment not found with id: %s".formatted(guid)));
-        return paymentPersistenceMapper.fromPaymentEntity(result);
+            .map(paymentPersistenceMapper::fromPaymentEntity)
+            .orElseThrow(() -> new IllegalArgumentException(PAYMENT_NOT_FOUND.formatted(guid)));
     }
 
     @Override
@@ -52,31 +55,31 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public PaymentDto update(UUID id, PaymentDto paymentDto) {
-        final var existing = paymentRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
+        final var existing = paymentRepository.findByIdWithLock(id)
+            .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id)));
 
-        final var updated = paymentPersistenceMapper.toPaymentEntity(paymentDto);
-        updated.setGuid(existing.getGuid());
-        updated.setCreatedAt(existing.getCreatedAt());
+        paymentPersistenceMapper.updatePaymentEntityFromDto(paymentDto, existing);
 
-        final var saved = paymentRepository.save(updated);
+        final var saved = paymentRepository.save(existing);
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 
     @Override
     public void delete(UUID id) {
         if (!paymentRepository.existsById(id)) {
-            throw new EntityNotFoundException("Payment not found with id: %s".formatted(id));
+            throw new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id));
         }
 
         paymentRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public PaymentDto updateNote(UUID id, String note) {
-        final var existing = paymentRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Payment not found with id: %s".formatted(id)));
+        final var existing = paymentRepository.findByIdWithLock(id)
+            .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id)));
 
         existing.setNote(note);
         final var saved = paymentRepository.save(existing);

@@ -18,5 +18,5 @@ public interface PaymentService {
 
     void delete(UUID id);
 
-    public PaymentDto updateNote(UUID id, String note);
+    PaymentDto updateNote(UUID id, String note);
 }

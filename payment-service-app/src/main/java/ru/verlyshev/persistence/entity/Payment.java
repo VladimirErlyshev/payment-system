@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -15,8 +17,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -32,7 +32,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Payment {
     @Id
-    @JdbcTypeCode(SqlTypes.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "guid", nullable = false, unique = true)
     private UUID guid;
 
@@ -55,21 +55,14 @@ public class Payment {
     @Column(name = "note", columnDefinition = "text")
     private String note;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at",
+            nullable = false,
+            updatable = false,
+            columnDefinition = "timestamptz DEFAULT now()")
     private OffsetDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        if (this.guid == null) {
-            this.guid = UUID.randomUUID();
-        }
-        final var now = OffsetDateTime.now();
-        this.createdAt = now;
-        this.updatedAt = now;
-    }
 
     @PreUpdate
     protected void onUpdate() {

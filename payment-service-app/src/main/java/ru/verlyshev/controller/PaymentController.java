@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.dto.request.PaymentFilterRequest;
 import ru.verlyshev.dto.request.PaymentRequest;
+import ru.verlyshev.dto.request.UpdatePaymentNoteRequest;
 import ru.verlyshev.dto.response.PaymentResponse;
 import ru.verlyshev.mapper.PaymentControllerMapper;
 import ru.verlyshev.mapper.PaymentFilterControllerMapper;
@@ -55,17 +56,7 @@ public class PaymentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PaymentResponse> create(@RequestBody @Valid PaymentRequest request) {
-        final var paymentDto = new PaymentDto(
-            null,
-            request.inquiryRefId(),
-            request.amount(),
-            request.currency(),
-            request.transactionRefId(),
-            request.status(),
-            request.note(),
-            null,
-            null
-        );
+        final var paymentDto = paymentControllerMapper.fromRequest(request);
 
         final var savedDto = paymentService.create(paymentDto);
         final var response = paymentControllerMapper.toResponse(savedDto);
@@ -74,18 +65,7 @@ public class PaymentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PaymentResponse> update(@PathVariable UUID id, @RequestBody @Valid PaymentRequest request) {
-        final var existingDto = paymentService.getPaymentById(id);
-        final var dtoToUpdate = new PaymentDto(
-            existingDto.guid(),
-            request.inquiryRefId(),
-            request.amount(),
-            request.currency(),
-            request.transactionRefId(),
-            request.status(),
-            request.note(),
-            existingDto.createdAt(),
-            null
-        );
+        final var dtoToUpdate = paymentControllerMapper.fromRequest(request);
 
         final var updatedDto = paymentService.update(id, dtoToUpdate);
         final var response = paymentControllerMapper.toResponse(updatedDto);
@@ -93,14 +73,14 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         paymentService.delete(id);
     }
 
     @PatchMapping("/{id}/note")
-    public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id, @RequestBody PaymentRequest request) {
+    public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id, @RequestBody UpdatePaymentNoteRequest request) {
         final var updatedDto = paymentService.updateNote(id, request.note());
         final var response = paymentControllerMapper.toResponse(updatedDto);
 
