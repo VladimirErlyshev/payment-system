@@ -32,3 +32,277 @@ curl -X PATCH 'http://localhost:8080/api/payments/1eddc5f4-9e3f-43c7-b2cf-d97686
 
 5) Удалить платеж
 curl -X DELETE 'http://localhost:8080/api/payments/1eddc5f4-9e3f-43c7-b2cf-d976864d6953'
+
+2025-10-20 00:57:18.389 |
+2025-10-20 00:57:18.390 |   .   ____          _            __ _ _
+2025-10-20 00:57:18.390 |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-10-20 00:57:18.390 | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-10-20 00:57:18.390 |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-10-20 00:57:18.390 |   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-10-20 00:57:18.390 |  =========|_|==============|___/=/_/_/_/
+2025-10-20 00:57:18.390 |
+2025-10-20 00:57:18.390 |  :: Spring Boot ::                (v3.5.5)
+2025-10-20 00:57:18.390 |
+2025-10-20 00:57:18.482 | 2025-10-19T19:57:18.480Z  INFO 1 --- [           main] ru.verlyshev.PaymentServiceApplication   : Starting PaymentServiceApplication v3.5.5 using Java 23.0.2 with PID 1 (/app/app.jar started by root in /app)
+2025-10-20 00:57:18.483 | 2025-10-19T19:57:18.483Z  INFO 1 --- [           main] ru.verlyshev.PaymentServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-10-20 00:57:19.400 | 2025-10-19T19:57:19.400Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-20 00:57:19.494 | 2025-10-19T19:57:19.490Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 76 ms. Found 1 JPA repository interface.
+2025-10-20 00:57:20.496 | 2025-10-19T19:57:20.496Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-20 00:57:20.531 | 2025-10-19T19:57:20.531Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-20 00:57:20.532 | 2025-10-19T19:57:20.532Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2025-10-20 00:57:20.601 | 2025-10-19T19:57:20.600Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-20 00:57:20.603 | 2025-10-19T19:57:20.602Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2050 ms
+2025-10-20 00:57:20.926 | 2025-10-19T19:57:20.924Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-20 00:57:21.293 | 2025-10-19T19:57:21.292Z  INFO 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@496cc217
+2025-10-20 00:57:21.298 | 2025-10-19T19:57:21.295Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-20 00:57:21.507 | 2025-10-19T19:57:21.507Z  INFO 1 --- [           main] liquibase.database                       : Set default schema name to public
+2025-10-20 00:57:21.936 | 2025-10-19T19:57:21.936Z  INFO 1 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2025-10-20 00:57:22.011 | 2025-10-19T19:57:22.010Z  INFO 1 --- [           main] liquibase.ui                             : Database is up to date, no changesets to execute
+2025-10-20 00:57:22.013 | 2025-10-19T19:57:22.013Z  INFO 1 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2025-10-20 00:57:22.024 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : UPDATE SUMMARY
+2025-10-20 00:57:22.024 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : Run:                          0
+2025-10-20 00:57:22.024 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : Previously run:               5
+2025-10-20 00:57:22.024 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : Filtered out:                 0
+2025-10-20 00:57:22.024 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : -------------------------------
+2025-10-20 00:57:22.025 | 2025-10-19T19:57:22.024Z  INFO 1 --- [           main] liquibase.util                           : Total change sets:            5
+2025-10-20 00:57:22.026 | 2025-10-19T19:57:22.025Z  INFO 1 --- [           main] liquibase.util                           : Update summary generated
+2025-10-20 00:57:22.027 | 2025-10-19T19:57:22.026Z  INFO 1 --- [           main] liquibase.command                        : Command execution complete
+2025-10-20 00:57:23.062 | 2025-10-19T19:57:23.061Z  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-20 00:57:23.142 | 2025-10-19T19:57:23.142Z  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-10-20 00:57:23.201 | 2025-10-19T19:57:23.200Z  INFO 1 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-20 00:57:23.597 | 2025-10-19T19:57:23.597Z  INFO 1 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-20 00:57:23.652 | 2025-10-19T19:57:23.651Z  WARN 1 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-20 00:57:24.540 | 2025-10-19T19:57:24.540Z  INFO 1 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-20 00:57:24.569 | 2025-10-19T19:57:24.569Z  INFO 1 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-20 00:57:24.868 | 2025-10-19T19:57:24.867Z  INFO 1 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-20 00:57:25.354 | 2025-10-19T19:57:25.354Z  WARN 1 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-20 00:57:25.802 | 2025-10-19T19:57:25.802Z  INFO 1 --- [           main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-10-20 00:57:26.117 | 2025-10-19T19:57:26.117Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-10-20 00:57:26.139 | 2025-10-19T19:57:26.138Z  INFO 1 --- [           main] ru.verlyshev.PaymentServiceApplication   : Started PaymentServiceApplication in 8.22 seconds (process running for 8.854)
+2025-10-20 00:57:48.604 | 2025-10-19T19:57:48.603Z  INFO 1 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-20 00:57:48.604 | 2025-10-19T19:57:48.604Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-20 00:57:48.604 | 2025-10-19T19:57:48.604Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-10-20 00:57:48.684 | 2025-10-19T19:57:48.679Z ERROR 1 --- [nio-8080-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+2025-10-20 00:57:48.684 |
+2025-10-20 00:57:48.684 | org.springframework.security.oauth2.jwt.JwtDecoderInitializationException: Failed to lazily resolve the supplied JwtDecoder instance
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.wrapException(SupplierJwtDecoder.java:53) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.lambda$new$0(SupplierJwtDecoder.java:39) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.util.function.SingletonSupplier.get(SingletonSupplier.java:106) ~[spring-core-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.decode(SupplierJwtDecoder.java:49) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider.getJwt(JwtAuthenticationProvider.java:99) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider.authenticate(JwtAuthenticationProvider.java:88) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.authentication.ProviderManager.authenticate(ProviderManager.java:182) ~[spring-security-core-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:144) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:48.684 | 	at java.base/java.lang.Thread.run(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | Caused by: java.lang.IllegalArgumentException: Unable to resolve the Configuration with the provided Issuer of "http://localhost:8085/realms/iprody-lms"
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfiguration(JwtDecoderProviderConfigurationUtils.java:176) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfigurationForIssuerLocation(JwtDecoderProviderConfigurationUtils.java:88) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder.lambda$withIssuerLocation$2(NimbusJwtDecoder.java:230) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.jwkSource(NimbusJwtDecoder.java:439) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.processor(NimbusJwtDecoder.java:448) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.build(NimbusJwtDecoder.java:464) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	at org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerJwtConfiguration$JwtDecoderConfiguration.lambda$jwtDecoderByIssuerUri$3(OAuth2ResourceServerJwtConfiguration.java:166) ~[spring-boot-autoconfigure-3.5.5.jar!/:3.5.5]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.lambda$new$0(SupplierJwtDecoder.java:36) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	... 68 common frames omitted
+2025-10-20 00:57:48.684 | Caused by: org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:8085/realms/iprody-lms/.well-known/openid-configuration": Connection refused
+2025-10-20 00:57:48.684 | 	at org.springframework.web.client.RestTemplate.createResourceAccessException(RestTemplate.java:926) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:906) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:751) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfiguration(JwtDecoderProviderConfigurationUtils.java:165) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:48.684 | 	... 75 common frames omitted
+2025-10-20 00:57:48.684 | Caused by: java.net.ConnectException: Connection refused
+2025-10-20 00:57:48.684 | 	at java.base/sun.nio.ch.Net.connect0(Native Method) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.nio.ch.Net.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.nio.ch.Net.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/java.net.Socket.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/java.net.Socket.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.NetworkClient.doConnect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.http.HttpClient.<init>(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.http.HttpClient.New(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.http.HttpClient.New(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:48.684 | 	at org.springframework.http.client.SimpleClientHttpRequest.executeInternal(SimpleClientHttpRequest.java:79) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.http.client.AbstractStreamingClientHttpRequest.executeInternal(AbstractStreamingClientHttpRequest.java:71) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:81) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:900) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:48.684 | 	... 77 common frames omitted
+2025-10-20 00:57:48.684 |
+2025-10-20 00:57:54.857 | 2025-10-19T19:57:54.856Z ERROR 1 --- [nio-8080-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+2025-10-20 00:57:54.857 |
+2025-10-20 00:57:54.857 | org.springframework.security.oauth2.jwt.JwtDecoderInitializationException: Failed to lazily resolve the supplied JwtDecoder instance
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.wrapException(SupplierJwtDecoder.java:53) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.lambda$new$0(SupplierJwtDecoder.java:39) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.util.function.SingletonSupplier.get(SingletonSupplier.java:106) ~[spring-core-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.decode(SupplierJwtDecoder.java:49) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider.getJwt(JwtAuthenticationProvider.java:99) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider.authenticate(JwtAuthenticationProvider.java:88) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.authentication.ProviderManager.authenticate(ProviderManager.java:182) ~[spring-security-core-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter.doFilterInternal(BearerTokenAuthenticationFilter.java:144) ~[spring-security-oauth2-resource-server-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.857 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.44.jar!/:na]
+2025-10-20 00:57:54.858 | 	at java.base/java.lang.Thread.run(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | Caused by: java.lang.IllegalArgumentException: Unable to resolve the Configuration with the provided Issuer of "http://localhost:8085/realms/iprody-lms"
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfiguration(JwtDecoderProviderConfigurationUtils.java:176) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfigurationForIssuerLocation(JwtDecoderProviderConfigurationUtils.java:88) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder.lambda$withIssuerLocation$2(NimbusJwtDecoder.java:230) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.jwkSource(NimbusJwtDecoder.java:439) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.processor(NimbusJwtDecoder.java:448) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.NimbusJwtDecoder$JwkSetUriJwtDecoderBuilder.build(NimbusJwtDecoder.java:464) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	at org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerJwtConfiguration$JwtDecoderConfiguration.lambda$jwtDecoderByIssuerUri$3(OAuth2ResourceServerJwtConfiguration.java:166) ~[spring-boot-autoconfigure-3.5.5.jar!/:3.5.5]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.SupplierJwtDecoder.lambda$new$0(SupplierJwtDecoder.java:36) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	... 68 common frames omitted
+2025-10-20 00:57:54.858 | Caused by: org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:8085/realms/iprody-lms/.well-known/openid-configuration": Connection refused
+2025-10-20 00:57:54.858 | 	at org.springframework.web.client.RestTemplate.createResourceAccessException(RestTemplate.java:926) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:906) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:751) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.security.oauth2.jwt.JwtDecoderProviderConfigurationUtils.getConfiguration(JwtDecoderProviderConfigurationUtils.java:165) ~[spring-security-oauth2-jose-6.5.3.jar!/:6.5.3]
+2025-10-20 00:57:54.858 | 	... 75 common frames omitted
+2025-10-20 00:57:54.858 | Caused by: java.net.ConnectException: Connection refused
+2025-10-20 00:57:54.858 | 	at java.base/sun.nio.ch.Net.connect0(Native Method) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.nio.ch.Net.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.nio.ch.Net.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/java.net.Socket.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/java.net.Socket.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.NetworkClient.doConnect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.http.HttpClient.openServer(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.http.HttpClient.<init>(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.http.HttpClient.New(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.http.HttpClient.New(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(Unknown Source) ~[na:na]
+2025-10-20 00:57:54.858 | 	at org.springframework.http.client.SimpleClientHttpRequest.executeInternal(SimpleClientHttpRequest.java:79) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.http.client.AbstractStreamingClientHttpRequest.executeInternal(AbstractStreamingClientHttpRequest.java:71) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:81) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:900) ~[spring-web-6.2.10.jar!/:6.2.10]
+2025-10-20 00:57:54.858 | 	... 77 common frames omitted
+2025-10-20 00:57:54.858 |
