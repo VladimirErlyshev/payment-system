@@ -9,7 +9,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payment-db
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=secret
-
   postgres:
     image: postgres:16
     container_name: postgres_db
@@ -45,7 +44,7 @@ services:
       - --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
       - "8085:8080"
     volumes:

@@ -15,7 +15,6 @@ import ru.verlyshev.security.KeyCloakRealmRoleConverter;
 public class SecurityConfig {
 
     public static final String REQUEST_MATCHER = "/api/payments/**";
-    public static final String ROLE = "USER";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +26,7 @@ public class SecurityConfig {
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(REQUEST_MATCHER).hasRole(ROLE).anyRequest().authenticated())
+                        .requestMatchers(REQUEST_MATCHER).authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(
                     jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
                 )).build();
