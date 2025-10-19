@@ -48,7 +48,7 @@
     {
       "username": "reader_user",
       "enabled": true,
-      "email": "testuser@example.local",
+      "email": "reader@example.local",
       "firstName": "Reader",
       "lastName": "User",
       "createdTimestamp": 1723468800000,
