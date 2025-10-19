@@ -79,11 +79,13 @@ public class PaymentController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable UUID id) {
         paymentService.delete(id);
     }
 
     @PatchMapping("/{id}/note")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id,
         @RequestBody UpdatePaymentNoteRequest request) {
         final var updatedDto = paymentService.updateNote(id, request.note());
