@@ -1,4 +1,4 @@
-package ru.verlyshev.controller;
+package ru.verlyshev.controller.v1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,7 +30,7 @@ import ru.verlyshev.service.PaymentService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;
@@ -37,12 +38,14 @@ public class PaymentController {
     private final PaymentControllerMapper paymentControllerMapper;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('READER', 'ADMIN')")
     public ResponseEntity<PaymentResponse> findById(@PathVariable UUID id) {
         final var result = paymentService.getPaymentById(id);
         return ResponseEntity.ok(paymentControllerMapper.toResponse(result));
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('READER', 'ADMIN')")
     public Page<PaymentResponse> searchPayments(
         @ModelAttribute PaymentFilterRequest filter,
         @PageableDefault(size = 25) Pageable pageable
@@ -53,6 +56,7 @@ public class PaymentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PaymentResponse> create(@RequestBody @Valid PaymentRequest request) {
         final var paymentDto = paymentControllerMapper.fromRequest(request);
@@ -63,6 +67,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> update(@PathVariable UUID id, @RequestBody @Valid PaymentRequest request) {
         final var dtoToUpdate = paymentControllerMapper.fromRequest(request);
 
@@ -74,11 +79,13 @@ public class PaymentController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable UUID id) {
         paymentService.delete(id);
     }
 
     @PatchMapping("/{id}/note")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id,
         @RequestBody UpdatePaymentNoteRequest request) {
         final var updatedDto = paymentService.updateNote(id, request.note());

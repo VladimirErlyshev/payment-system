@@ -31,7 +31,8 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository
             .findById(guid)
             .map(paymentPersistenceMapper::fromPaymentEntity)
-            .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(guid), guid, OperationType.FIND));
+            .orElseThrow(() ->
+            new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(guid), guid, OperationType.FIND));
     }
 
     @Override
