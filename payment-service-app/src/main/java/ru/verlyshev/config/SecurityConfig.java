@@ -14,7 +14,7 @@ import ru.verlyshev.security.KeyCloakRealmRoleConverter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    public static final String REQUEST_MATCHER = "/api/payments/**";
+    public static final String PAYMENTS_API_V1_PATTERN = "/api/v1/payments/**";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(REQUEST_MATCHER).authenticated())
+                        .requestMatchers(PAYMENTS_API_V1_PATTERN).authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(
                     jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
                 )).build();
