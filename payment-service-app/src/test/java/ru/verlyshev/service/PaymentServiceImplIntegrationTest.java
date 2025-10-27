@@ -41,6 +41,8 @@ class PaymentServiceImplIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @Sql(scripts = "/data/sql/payments-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "/data/sql/cleanup-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void searchPagedTest() {
         var currency = "USD";
         var minAmount = new BigDecimal("50.00");

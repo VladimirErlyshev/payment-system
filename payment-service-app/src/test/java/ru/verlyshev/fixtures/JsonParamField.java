@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JsonParamField {
+public final class JsonParamField {
     public static final String CURRENCY = "currency";
     public static final String STATUS = "status";
     public static final String MIN_AMOUNT = "minAmount";

@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JsonPathField {
+public final class JsonPathField {
     public static final String GUID = "$.guid";
     public static final String INQUIRY_REF_ID = "$.inquiryRefId";
     public static final String AMOUNT = "$.amount";

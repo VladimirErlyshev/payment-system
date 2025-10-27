@@ -16,12 +16,18 @@ import java.time.Duration;
 @Testcontainers
 public abstract class AbstractIntegrationTest {
     private static final String PAYMENT_DB_NAME = "payment-db";
+
     private static final String TEST_USER = "test_user";
     private static final String TEST_PASSWORD = "test_password";
+
     private static final String DATABASE_ACCEPT_LOG = ".*database system is ready to accept connections.*";
+    public static final int LOG_TIMES = 2;
+    public static final int LOG_TIMEOUT = 20;
+
     private static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
     private static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
     private static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
+
     private static final String POSTGRES_VERSION = "postgres:16";
 
     @Container
@@ -31,8 +37,8 @@ public abstract class AbstractIntegrationTest {
             .withPassword(TEST_PASSWORD)
             .waitingFor(new WaitAllStrategy()
                     .withStrategy(Wait.forListeningPort())
-                    .withStrategy(Wait.forLogMessage(DATABASE_ACCEPT_LOG, 2)))
-            .withStartupTimeout(Duration.ofSeconds(20));
+                    .withStrategy(Wait.forLogMessage(DATABASE_ACCEPT_LOG, LOG_TIMES)))
+            .withStartupTimeout(Duration.ofSeconds(LOG_TIMEOUT));
 
     @DynamicPropertySource
     static void overrideProps(DynamicPropertyRegistry registry) {
