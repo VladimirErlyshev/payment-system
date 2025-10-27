@@ -3,7 +3,9 @@ package ru.verlyshev.fixtures;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.verlyshev.dto.PaymentDto;
+import ru.verlyshev.dto.request.PaymentRequest;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 
@@ -13,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestFixtures {
@@ -54,6 +57,17 @@ public final class TestFixtures {
         );
     }
 
+    public static PaymentRequest generatePaymentRequest() {
+        return new PaymentRequest(
+                inquiryRefId,
+                amount,
+                currency,
+                transactionId,
+                status,
+                note
+        );
+    }
+
     public static void checkPaymentDto(PaymentDto paymentDto, Payment payment) {
         assertThat(paymentDto).isNotNull();
         assertThat(paymentDto.guid()).isEqualTo(payment.getGuid());
@@ -78,6 +92,29 @@ public final class TestFixtures {
         assertThat(payment.getNote()).isEqualTo(paymentDto.note());
         assertThat(payment.getCreatedAt()).isEqualTo(paymentDto.createdAt());
         assertThat(payment.getUpdatedAt()).isEqualTo(paymentDto.updatedAt());
+    }
+
+    public static ResultMatcher[] paymentResponseMatchers(PaymentRequest request, UUID expectedGuid) {
+        return new ResultMatcher[]{
+                jsonPath(JsonPathField.GUID).value(expectedGuid.toString()),
+                jsonPath(JsonPathField.INQUIRY_REF_ID).value(request.inquiryRefId().toString()),
+                jsonPath(JsonPathField.AMOUNT).value(request.amount().doubleValue()),
+                jsonPath(JsonPathField.CURRENCY).value(request.currency()),
+                jsonPath(JsonPathField.TRANSACTION_REF_ID).value(request.transactionRefId().toString()),
+                jsonPath(JsonPathField.STATUS).value(request.status().name()),
+                jsonPath(JsonPathField.NOTE).value(request.note())
+        };
+    }
+
+    public static ResultMatcher[] paymentResponseMatchers(PaymentRequest request) {
+        return new ResultMatcher[]{
+                jsonPath(JsonPathField.INQUIRY_REF_ID).value(request.inquiryRefId().toString()),
+                jsonPath(JsonPathField.AMOUNT).value(request.amount().doubleValue()),
+                jsonPath(JsonPathField.CURRENCY).value(request.currency()),
+                jsonPath(JsonPathField.TRANSACTION_REF_ID).value(request.transactionRefId().toString()),
+                jsonPath(JsonPathField.STATUS).value(request.status().name()),
+                jsonPath(JsonPathField.NOTE).value(request.note())
+        };
     }
 
     private static BigDecimal generateRandomAmount() {
