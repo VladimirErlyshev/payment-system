@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.verlyshev.fixtures.TestFixtures.EXISTING_GUID;
 
 @AutoConfigureMockMvc
 class PaymentControllerIntegrationTest extends AbstractIntegrationTest {
@@ -30,7 +31,6 @@ class PaymentControllerIntegrationTest extends AbstractIntegrationTest {
     private static final String API_V1_PATTERN = "/api/v1/payments";
     private static final String TEST_USER = "test-user";
     private static final String ADMIN_ROLE = "ADMIN";
-    private static final String EXISTING_GUID = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
 
     @Autowired
     private MockMvc mockMvc;

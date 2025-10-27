@@ -15,10 +15,12 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestFixtures {
+    public static final String EXISTING_GUID = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
     public static UUID id = UUID.randomUUID();
     public static UUID transactionId = UUID.randomUUID();
     public static UUID inquiryRefId = UUID.randomUUID();
@@ -79,6 +81,17 @@ public final class TestFixtures {
         assertThat(paymentDto.note()).isEqualTo(payment.getNote());
         assertThat(paymentDto.createdAt()).isEqualTo(payment.getCreatedAt());
         assertThat(paymentDto.updatedAt()).isEqualTo(payment.getUpdatedAt());
+    }
+
+    public static void checkPaymentDto(PaymentDto result, PaymentDto paymentDto) {
+        assertAll(
+                () -> assertThat(result.inquiryRefId()).isEqualTo(paymentDto.inquiryRefId()),
+                () -> assertThat(result.amount()).isEqualTo(paymentDto.amount()),
+                () -> assertThat(result.note()).isEqualTo(paymentDto.note()),
+                () -> assertThat(result.currency()).isEqualTo(paymentDto.currency()),
+                () -> assertThat(result.transactionRefId()).isEqualTo(paymentDto.transactionRefId()),
+                () -> assertThat(result.status()).isEqualTo(paymentDto.status())
+        );
     }
 
     public static void checkPayment(Payment payment, PaymentDto paymentDto) {
