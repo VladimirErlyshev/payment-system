@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.verlyshev.fixtures.TestFixtures.EXISTING_GUID;
+import static ru.verlyshev.fixtures.TestFixtures.NOT_EXISTING_GUID;
 import static ru.verlyshev.fixtures.TestFixtures.checkPaymentDto;
 import static ru.verlyshev.fixtures.TestFixtures.generatePaymentDto;
 
@@ -36,9 +37,7 @@ class PaymentServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void getByIdNotFoundTest() {
-        var notExistingGuid = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
-
-        assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentById(UUID.fromString(notExistingGuid)));
+        assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentById(UUID.fromString(NOT_EXISTING_GUID)));
     }
 
     @Test
@@ -91,7 +90,12 @@ class PaymentServiceImplIntegrationTest extends AbstractIntegrationTest {
     void deletePaymentTest() {
         paymentService.delete(UUID.fromString(EXISTING_GUID));
 
-        assertThat(paymentService.getPaymentById(UUID.fromString(EXISTING_GUID))).isNull();
+        assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentById(UUID.fromString(NOT_EXISTING_GUID)));
+    }
+
+    @Test
+    void deletePaymentNotFountTest() {
+        assertThrows(EntityNotFoundException.class, () -> paymentService.delete(UUID.fromString(EXISTING_GUID)));
     }
 
     @Test
@@ -116,17 +120,9 @@ class PaymentServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void updatePaymentNotFountTest() {
-        var notExistingGuid = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
         var paymentDto = generatePaymentDto();
 
-        assertThrows(EntityNotFoundException.class, () -> paymentService.update(UUID.fromString(notExistingGuid), paymentDto));
-    }
-
-    @Test
-    void deletePaymentNotFountTest() {
-        paymentService.delete(UUID.fromString(EXISTING_GUID));
-
-        assertThrows(EntityNotFoundException.class, () -> paymentService.getPaymentById(UUID.fromString(EXISTING_GUID)));
+        assertThrows(EntityNotFoundException.class, () -> paymentService.update(UUID.fromString(NOT_EXISTING_GUID), paymentDto));
     }
 
     @Test
@@ -141,9 +137,8 @@ class PaymentServiceImplIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void updateNoteNotFountTest() {
-        var notExistingGuid = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
         var newNote = "new note";
 
-        assertThrows(EntityNotFoundException.class, () -> paymentService.updateNote(UUID.fromString(notExistingGuid), newNote));
+        assertThrows(EntityNotFoundException.class, () -> paymentService.updateNote(UUID.fromString(NOT_EXISTING_GUID), newNote));
     }
 }

@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestFixtures {
     public static final String EXISTING_GUID = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
+    public static final String NOT_EXISTING_GUID = "aa9dcd06-9364-4036-8a5c-e0c571471d3d";
     public static UUID id = UUID.randomUUID();
     public static UUID transactionId = UUID.randomUUID();
     public static UUID inquiryRefId = UUID.randomUUID();
