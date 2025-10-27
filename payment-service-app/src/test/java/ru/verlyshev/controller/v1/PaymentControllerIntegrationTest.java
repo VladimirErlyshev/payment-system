@@ -46,7 +46,7 @@ class PaymentControllerIntegrationTest extends AbstractIntegrationTest {
                         .with(TestJwtFactory.jwtWithRole(TEST_USER, ADMIN_ROLE))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.guid").value(EXISTING_GUID));
+                .andExpect(jsonPath(JsonPathField.GUID).value(EXISTING_GUID));
     }
 
     @Test
