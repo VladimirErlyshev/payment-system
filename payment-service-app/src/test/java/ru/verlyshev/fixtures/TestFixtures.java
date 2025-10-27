@@ -1,4 +1,4 @@
-package fixtures;
+package ru.verlyshev.fixtures;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
