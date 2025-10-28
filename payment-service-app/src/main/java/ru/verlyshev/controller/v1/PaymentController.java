@@ -57,13 +57,12 @@ public class PaymentController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PaymentResponse> create(@RequestBody @Valid PaymentRequest request) {
         final var paymentDto = paymentControllerMapper.fromRequest(request);
 
         final var savedDto = paymentService.create(paymentDto);
         final var response = paymentControllerMapper.toResponse(savedDto);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")

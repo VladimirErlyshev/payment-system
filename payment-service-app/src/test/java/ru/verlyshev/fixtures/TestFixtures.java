@@ -1,9 +1,11 @@
-package fixtures;
+package ru.verlyshev.fixtures;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.verlyshev.dto.PaymentDto;
+import ru.verlyshev.dto.request.PaymentRequest;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 
@@ -13,9 +15,13 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestFixtures {
+    public static final String EXISTING_GUID = "a668f828-c2c5-4b83-8c41-ddd8b3ac3781";
+    public static final String NOT_EXISTING_GUID = "aa9dcd06-9364-4036-8a5c-e0c571471d3d";
     public static UUID id = UUID.randomUUID();
     public static UUID transactionId = UUID.randomUUID();
     public static UUID inquiryRefId = UUID.randomUUID();
@@ -54,6 +60,17 @@ public final class TestFixtures {
         );
     }
 
+    public static PaymentRequest generatePaymentRequest() {
+        return new PaymentRequest(
+                inquiryRefId,
+                amount,
+                currency,
+                transactionId,
+                status,
+                note
+        );
+    }
+
     public static void checkPaymentDto(PaymentDto paymentDto, Payment payment) {
         assertThat(paymentDto).isNotNull();
         assertThat(paymentDto.guid()).isEqualTo(payment.getGuid());
@@ -67,6 +84,17 @@ public final class TestFixtures {
         assertThat(paymentDto.updatedAt()).isEqualTo(payment.getUpdatedAt());
     }
 
+    public static void checkPaymentDto(PaymentDto result, PaymentDto paymentDto) {
+        assertAll(
+                () -> assertThat(result.inquiryRefId()).isEqualTo(paymentDto.inquiryRefId()),
+                () -> assertThat(result.amount()).isEqualTo(paymentDto.amount()),
+                () -> assertThat(result.note()).isEqualTo(paymentDto.note()),
+                () -> assertThat(result.currency()).isEqualTo(paymentDto.currency()),
+                () -> assertThat(result.transactionRefId()).isEqualTo(paymentDto.transactionRefId()),
+                () -> assertThat(result.status()).isEqualTo(paymentDto.status())
+        );
+    }
+
     public static void checkPayment(Payment payment, PaymentDto paymentDto) {
         assertThat(payment).isNotNull();
         assertThat(payment.getGuid()).isEqualTo(paymentDto.guid());
@@ -78,6 +106,29 @@ public final class TestFixtures {
         assertThat(payment.getNote()).isEqualTo(paymentDto.note());
         assertThat(payment.getCreatedAt()).isEqualTo(paymentDto.createdAt());
         assertThat(payment.getUpdatedAt()).isEqualTo(paymentDto.updatedAt());
+    }
+
+    public static ResultMatcher[] paymentResponseMatchers(PaymentRequest request, UUID expectedGuid) {
+        return new ResultMatcher[]{
+                jsonPath(JsonPathField.GUID).value(expectedGuid.toString()),
+                jsonPath(JsonPathField.INQUIRY_REF_ID).value(request.inquiryRefId().toString()),
+                jsonPath(JsonPathField.AMOUNT).value(request.amount().doubleValue()),
+                jsonPath(JsonPathField.CURRENCY).value(request.currency()),
+                jsonPath(JsonPathField.TRANSACTION_REF_ID).value(request.transactionRefId().toString()),
+                jsonPath(JsonPathField.STATUS).value(request.status().name()),
+                jsonPath(JsonPathField.NOTE).value(request.note())
+        };
+    }
+
+    public static ResultMatcher[] paymentResponseMatchers(PaymentRequest request) {
+        return new ResultMatcher[]{
+                jsonPath(JsonPathField.INQUIRY_REF_ID).value(request.inquiryRefId().toString()),
+                jsonPath(JsonPathField.AMOUNT).value(request.amount().doubleValue()),
+                jsonPath(JsonPathField.CURRENCY).value(request.currency()),
+                jsonPath(JsonPathField.TRANSACTION_REF_ID).value(request.transactionRefId().toString()),
+                jsonPath(JsonPathField.STATUS).value(request.status().name()),
+                jsonPath(JsonPathField.NOTE).value(request.note())
+        };
     }
 
     private static BigDecimal generateRandomAmount() {
