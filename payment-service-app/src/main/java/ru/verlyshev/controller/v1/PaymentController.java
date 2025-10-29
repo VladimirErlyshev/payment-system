@@ -94,4 +94,31 @@ public class PaymentController {
     }
 }
 
-//Bearer error="insufficient_scope", error_description="The request requires higher privileges than provided by the access token.", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1" при вызвое дебаг эндпойнта
+/* {
+  "exp": 1761760540,
+  "iat": 1761760240,
+  "jti": "fd0b0349-62d8-492d-947e-548a2eb392d7",
+  "iss": "http://keycloak:8080/realms/iprody-lms",
+  "sub": "b7742e74-43e9-4e10-86ff-ab38a8cfced0",
+  "typ": "Bearer",
+  "azp": "basic_client",
+  "session_state": "c85a1dcd-649d-4ae7-a174-fb0e94c83827",
+  "acr": "1",
+  "allowed-origins": [
+    "http://localhost:8085"
+  ],
+  "realm_access": {
+    "roles": [
+      "admin",
+      "user"
+    ]
+  },
+  "scope": "email profile",
+  "sid": "c85a1dcd-649d-4ae7-a174-fb0e94c83827",
+  "email_verified": true,
+  "name": "Admin User",
+  "preferred_username": "admin_user",
+  "given_name": "Admin",
+  "family_name": "User",
+  "email": "admin@example.local"
+} */
