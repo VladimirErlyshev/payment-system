@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PAYMENTS_API_V1_PATTERN).authenticated())
                 .oauth2ResourceServer(oauth -> oauth.jwt(
-                        jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                    jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
                 )).build();
     }
 }
