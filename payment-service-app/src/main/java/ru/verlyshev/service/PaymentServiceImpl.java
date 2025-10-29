@@ -10,6 +10,8 @@ import ru.verlyshev.dto.PaymentDto;
 import ru.verlyshev.dto.PaymentFilterDto;
 import ru.verlyshev.dto.enums.OperationType;
 import ru.verlyshev.exception.EntityNotFoundException;
+import ru.verlyshev.integration.mapper.XPaymentMessageMapper;
+import ru.verlyshev.integration.xpayment.async.producer.XPaymentAsyncProducer;
 import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
 import ru.verlyshev.persistence.repository.PaymentRepository;
@@ -25,6 +27,9 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentFilterPersistenceMapper paymentFilterPersistenceMapper;
     private final PaymentPersistenceMapper paymentPersistenceMapper;
+
+    private final XPaymentAsyncProducer producer;
+    private final XPaymentMessageMapper messageMapper;
 
     @Override
     public PaymentDto getPaymentById(UUID guid) {
@@ -53,6 +58,11 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto create(PaymentDto paymentDto) {
         final var paymentEntity = paymentPersistenceMapper.toPaymentEntity(paymentDto);
         final var saved = paymentRepository.save(paymentEntity);
+
+        var message = messageMapper.toMessage(paymentEntity);
+        message.toBuilder().messageId(UUID.randomUUID().toString()).build();
+        producer.send(message);
+
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 
