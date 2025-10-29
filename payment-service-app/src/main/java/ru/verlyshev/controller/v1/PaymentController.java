@@ -93,3 +93,5 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 }
+
+//Bearer error="insufficient_scope", error_description="The request requires higher privileges than provided by the access token.", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1" при вызвое дебаг эндпойнта
