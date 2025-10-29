@@ -15,30 +15,20 @@ import ru.verlyshev.security.KeyCloakRealmRoleConverter;
 public class SecurityConfig {
 
     public static final String PAYMENTS_API_V1_PATTERN = "/api/v1/payments/**";
-    public static final String PREFERRED_USERNAME = "preferred_username";
-
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(new KeyCloakRealmRoleConverter());
-        converter.setPrincipalClaimName(PREFERRED_USERNAME);
-        return converter;
-    }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(PAYMENTS_API_V1_PATTERN).authenticated()
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                );
+        final var jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeyCloakRealmRoleConverter());
 
-        return http.build();
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sm ->
+                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PAYMENTS_API_V1_PATTERN).authenticated())
+                .oauth2ResourceServer(oauth -> oauth.jwt(
+                        jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                )).build();
     }
 }
