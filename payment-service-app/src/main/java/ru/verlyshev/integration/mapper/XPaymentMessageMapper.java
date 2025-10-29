@@ -19,7 +19,7 @@ public interface XPaymentMessageMapper {
     default XPaymentStatus toXPaymentStatus(PaymentStatus status) {
         return switch (status) {
             case RECEIVED -> XPaymentStatus.PROCESSING;
-            case APPROVED -> XPaymentStatus.PROCESSED;
+            case APPROVED -> XPaymentStatus.SUCCEEDED;
             default -> XPaymentStatus.CANCELED;
         };
     }

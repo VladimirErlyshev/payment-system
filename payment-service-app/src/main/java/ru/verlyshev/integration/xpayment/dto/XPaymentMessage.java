@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 @Builder(toBuilder = true)
 public record XPaymentMessage(
-        String messageId,
-        String paymentId,
-        BigDecimal amount,
-        String currency,
-        XPaymentStatus status
+    String messageId,
+    String paymentId,
+    BigDecimal amount,
+    String currency,
+    XPaymentStatus status
 ) implements AsyncMessage { }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 import ru.verlyshev.async.AsyncBroker;
 import ru.verlyshev.async.AsyncListener;
 import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
+import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -25,16 +28,30 @@ public class XPaymentAsyncBroker implements AsyncBroker {
     }
 
     @Override
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 30000)
     public void sendMessage() {
         try {
             if (!queue.isEmpty()) {
-                var value = queue.poll();
-                var message = objectMapper.readValue(value, XPaymentMessage.class);
+                final var value = queue.poll();
+                final var message = objectMapper.readValue(value, XPaymentMessage.class);
+                message.toBuilder()
+                    .status(isEven(message.amount()) ? XPaymentStatus.SUCCEEDED : XPaymentStatus.CANCELED)
+                    .build();
+
                 listener.onMessage(message);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isEven(BigDecimal value) {
+        if (value.stripTrailingZeros().scale() > 0) {
+            return false;
+        }
+
+        return value.toBigInteger()
+                .remainder(BigInteger.valueOf(2))
+                .equals(BigInteger.ZERO);
     }
 }

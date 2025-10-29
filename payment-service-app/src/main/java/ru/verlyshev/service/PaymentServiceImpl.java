@@ -59,7 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
         final var paymentEntity = paymentPersistenceMapper.toPaymentEntity(paymentDto);
         final var saved = paymentRepository.save(paymentEntity);
 
-        var message = messageMapper.toMessage(paymentEntity);
+        final var message = messageMapper.toMessage(paymentEntity);
         message.toBuilder().messageId(UUID.randomUUID().toString()).build();
         producer.send(message);
 
