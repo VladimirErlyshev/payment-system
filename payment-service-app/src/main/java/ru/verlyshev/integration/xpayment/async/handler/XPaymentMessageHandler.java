@@ -7,14 +7,14 @@ import ru.verlyshev.async.MessageHandler;
 import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
 import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.persistence.entity.PaymentStatus;
-import ru.verlyshev.service.PaymentServiceImpl;
+import ru.verlyshev.service.PaymentService;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class XPaymentMessageHandler implements MessageHandler<XPaymentMessage> {
 
-    private final PaymentServiceImpl paymentService;
+    private final PaymentService paymentService;
 
     @Override
     public void processMessage(XPaymentMessage message) {

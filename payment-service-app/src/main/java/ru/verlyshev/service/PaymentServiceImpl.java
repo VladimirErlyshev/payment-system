@@ -69,11 +69,10 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 
-    @Transactional
     public void changeStatus(String id, PaymentStatus status) {
         final var guid = UUID.fromString(id);
 
-        final var paymentOpt = paymentRepository.findByIdWithLock(guid);
+        final var paymentOpt = paymentRepository.findById(guid);
 
         paymentOpt.ifPresentOrElse(
                 paymentEntity -> {
