@@ -7,11 +7,7 @@ import ru.verlyshev.async.MessageHandler;
 import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
 import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.persistence.entity.PaymentStatus;
-import ru.verlyshev.persistence.repository.PaymentRepository;
-import ru.verlyshev.service.PaymentService;
 import ru.verlyshev.service.PaymentServiceImpl;
-
-import java.util.UUID;
 
 @Slf4j
 @Component

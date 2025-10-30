@@ -13,8 +13,6 @@ import ru.verlyshev.dto.enums.OperationType;
 import ru.verlyshev.exception.EntityNotFoundException;
 import ru.verlyshev.integration.mapper.XPaymentMessageMapper;
 import ru.verlyshev.integration.xpayment.async.producer.XPaymentAsyncProducer;
-import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
-import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
 import ru.verlyshev.persistence.entity.PaymentStatus;
@@ -75,15 +73,16 @@ public class PaymentServiceImpl implements PaymentService {
     public void changeStatus(String id, PaymentStatus status) {
         final var guid = UUID.fromString(id);
 
-        paymentRepository.findByIdWithLock(guid)
-                .ifPresentOrElse(
-                        paymentEntity -> {
-                            paymentEntity.setStatus(status);
-                            paymentRepository.save(paymentEntity);
-                            log.info("Payment {} status updated to: {}", guid, status);
-                        },
-                        () -> log.warn("Payment with id {} not found", guid)
-                );
+        final var paymentOpt = paymentRepository.findByIdWithLock(guid);
+
+        paymentOpt.ifPresentOrElse(
+                paymentEntity -> {
+                    paymentEntity.setStatus(status);
+                    paymentRepository.save(paymentEntity);
+                    log.info("Payment {} status updated to: {}", guid, status);
+                },
+                () -> log.warn("Payment with id {} not found", guid)
+        );
     }
 
     @Override
