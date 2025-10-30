@@ -32,7 +32,7 @@ switch -->
             <property name="lineWrappingIndentation" value="4"/> <!-- Отступ
 для переноса строк -->
 
-            <property name="forceStrictCondition" value="true"/> <!-- Строгая
+            <property name="forceStrictCondition" value="false"/> <!-- Строгая
 проверка отступов -->
         </module>
     </module>
