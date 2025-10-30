@@ -2,6 +2,7 @@ package ru.verlyshev.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,11 @@ import ru.verlyshev.dto.enums.OperationType;
 import ru.verlyshev.exception.EntityNotFoundException;
 import ru.verlyshev.integration.mapper.XPaymentMessageMapper;
 import ru.verlyshev.integration.xpayment.async.producer.XPaymentAsyncProducer;
+import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
+import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
+import ru.verlyshev.persistence.entity.PaymentStatus;
 import ru.verlyshev.persistence.repository.PaymentRepository;
 import ru.verlyshev.persistence.specifications.PaymentFilterFactory;
 
@@ -22,6 +26,7 @@ import java.util.UUID;
 import static ru.verlyshev.exception.ExceptionMessages.PAYMENT_NOT_FOUND;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
@@ -57,13 +62,27 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto create(PaymentDto paymentDto) {
         final var paymentEntity = paymentPersistenceMapper.toPaymentEntity(paymentDto);
-        final var saved = paymentRepository.save(paymentEntity);
 
         final var message = messageMapper.toMessage(paymentEntity);
         message.toBuilder().messageId(UUID.randomUUID().toString()).build();
         producer.send(message);
 
+        final var saved = paymentRepository.save(paymentEntity);
         return paymentPersistenceMapper.fromPaymentEntity(saved);
+    }
+
+    public void changeStatus(String id, PaymentStatus status) {
+        final var guid = UUID.fromString(id);
+
+        paymentRepository.findById(guid)
+                .ifPresentOrElse(
+                        paymentEntity -> {
+                            paymentEntity.setStatus(status);
+                            paymentRepository.save(paymentEntity);
+                            log.info("Payment {} status updated to: {}", guid, status);
+                        },
+                        () -> log.warn("Payment with id {} not found", guid)
+                );
     }
 
     @Override

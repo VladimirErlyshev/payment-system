@@ -8,6 +8,8 @@ import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
 import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 import ru.verlyshev.persistence.repository.PaymentRepository;
+import ru.verlyshev.service.PaymentService;
+import ru.verlyshev.service.PaymentServiceImpl;
 
 import java.util.UUID;
 
@@ -16,32 +18,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class XPaymentMessageHandler implements MessageHandler<XPaymentMessage> {
 
-    private final PaymentRepository paymentRepository;
+    private final PaymentServiceImpl paymentService;
 
     @Override
     public void processMessage(XPaymentMessage message) {
         log.info("Received XPayment message: {}", message);
 
-        final var status = message.status();
+        final var paymentId = message.paymentId();
+        final var xStatus = message.status();
 
-        if (!status.equals(XPaymentStatus.PROCESSING)) {
-            final var paymentId = UUID.fromString(message.paymentId());
+        if (!xStatus.equals(XPaymentStatus.PROCESSING)) {
+            final var paymentStatus = switch (xStatus) {
+                case SUCCEEDED -> PaymentStatus.APPROVED;
+                case CANCELED -> PaymentStatus.DECLINED;
+                default -> throw new IllegalStateException("Unexpected status: " + xStatus);
+            };
 
-            paymentRepository.findById(paymentId)
-                .ifPresentOrElse(payment -> {
-                    final var newStatus = switch (status) {
-                        case SUCCEEDED -> PaymentStatus.APPROVED;
-                        case CANCELED -> PaymentStatus.DECLINED;
-                        default -> {
-                            log.warn("Unsupported XPaymentStatus {}", status);
-                            yield PaymentStatus.NOT_SENT;
-                        }
-                    };
-
-                    payment.setStatus(newStatus);
-                    paymentRepository.save(payment);
-                    log.info("Payment {} status updated to {}", payment, status);
-                }, () -> log.warn("Payment {} not found", paymentId));
+            paymentService.changeStatus(paymentId, paymentStatus);
         }
     }
 }
