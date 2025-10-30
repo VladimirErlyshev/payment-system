@@ -2,6 +2,7 @@ package ru.verlyshev.integration.xpayment.async.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.verlyshev.async.MessageHandler;
@@ -15,8 +16,7 @@ import ru.verlyshev.service.PaymentService;
 @RequiredArgsConstructor
 public class XPaymentMessageHandler implements MessageHandler<XPaymentMessage> {
 
-    @Lazy
-    private final PaymentService paymentService;
+    private final ApplicationContext applicationContext;
 
     @Override
     public void processMessage(XPaymentMessage message) {
@@ -32,6 +32,7 @@ public class XPaymentMessageHandler implements MessageHandler<XPaymentMessage> {
                 default -> throw new IllegalStateException("Unexpected status: " + xStatus);
             };
 
+            final var paymentService = applicationContext.getBean(PaymentService.class);
             paymentService.changeStatus(paymentId, paymentStatus);
         }
     }
