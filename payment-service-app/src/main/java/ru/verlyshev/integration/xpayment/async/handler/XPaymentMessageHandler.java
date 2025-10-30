@@ -2,6 +2,7 @@ package ru.verlyshev.integration.xpayment.async.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.verlyshev.async.MessageHandler;
 import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
@@ -14,6 +15,7 @@ import ru.verlyshev.service.PaymentService;
 @RequiredArgsConstructor
 public class XPaymentMessageHandler implements MessageHandler<XPaymentMessage> {
 
+    @Lazy
     private final PaymentService paymentService;
 
     @Override
