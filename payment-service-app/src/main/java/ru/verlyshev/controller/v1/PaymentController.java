@@ -2,6 +2,7 @@ package ru.verlyshev.controller.v1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,6 +30,7 @@ import ru.verlyshev.service.PaymentService;
 
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
@@ -40,7 +42,9 @@ public class PaymentController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('READER', 'ADMIN')")
     public ResponseEntity<PaymentResponse> findById(@PathVariable UUID id) {
+        log.info("Getting payment by id: {}", id);
         final var result = paymentService.getPaymentById(id);
+        log.debug("Sending payment: {}", result);
         return ResponseEntity.ok(paymentControllerMapper.toResponse(result));
     }
 
@@ -50,29 +54,37 @@ public class PaymentController {
         @ModelAttribute PaymentFilterRequest filter,
         @PageableDefault(size = 25) Pageable pageable
     ) {
+        log.info("Searching payments with filter: {}", filter);
         final var searchCriteria = paymentFilterMapper.toDto(filter);
-        return paymentService.searchPaged(searchCriteria, pageable)
+
+        final var result = paymentService.searchPaged(searchCriteria, pageable)
                 .map(paymentControllerMapper::toResponse);
+        log.debug("Sending payments: {}", result);
+        return result;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> create(@RequestBody @Valid PaymentRequest request) {
+        log.info("Creating payment: {}", request);
         final var paymentDto = paymentControllerMapper.fromRequest(request);
 
         final var savedDto = paymentService.create(paymentDto);
         final var response = paymentControllerMapper.toResponse(savedDto);
+        log.debug("Created payment: {}", response);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> update(@PathVariable UUID id, @RequestBody @Valid PaymentRequest request) {
+        log.info("Updating payment with id: {} and data: {}", id, request);
         final var dtoToUpdate = paymentControllerMapper.fromRequest(request);
 
         final var updatedDto = paymentService.update(id, dtoToUpdate);
         final var response = paymentControllerMapper.toResponse(updatedDto);
 
+        log.debug("Updated payment: {}", response);
         return ResponseEntity.ok(response);
     }
 
@@ -80,16 +92,20 @@ public class PaymentController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable UUID id) {
+        log.info("Deleting payment with id: {}", id);
         paymentService.delete(id);
+        log.debug("Deleted payment with id: {}", id);
     }
 
     @PatchMapping("/{id}/note")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentResponse> updateNote(@PathVariable UUID id,
         @RequestBody UpdatePaymentNoteRequest request) {
+        log.info("Updating note for payment with id: {} and note: {}", id, request.note());
         final var updatedDto = paymentService.updateNote(id, request.note());
         final var response = paymentControllerMapper.toResponse(updatedDto);
 
+        log.debug("Updated note for payment: {}", response);
         return ResponseEntity.ok(response);
     }
 }

@@ -36,11 +36,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto getPaymentById(UUID guid) {
-        return paymentRepository
-            .findById(guid)
-            .map(paymentPersistenceMapper::fromPaymentEntity)
-            .orElseThrow(() ->
-            new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(guid), guid, OperationType.FIND));
+        final var resul = paymentRepository
+                .findById(guid)
+                .map(paymentPersistenceMapper::fromPaymentEntity)
+                .orElseThrow(() -> {
+                            log.warn("Payment with id {} not found", guid);
+                            return new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(guid), guid, OperationType.FIND);
+                        }
+                );
+
+        log.debug("Payment with guid {} found", guid);
+        return resul;
     }
 
     @Override
@@ -53,6 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
 
+        log.debug("Searching payments with filter: {}", filterDto);
         return paymentRepository.findAll(spec, pageable)
                 .map(paymentPersistenceMapper::fromPaymentEntity);
     }
@@ -66,6 +73,8 @@ public class PaymentServiceImpl implements PaymentService {
         producer.send(message);
 
         final var saved = paymentRepository.save(paymentEntity);
+
+        log.debug("Payment with id {} created", saved.getGuid());
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 
@@ -78,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentEntity -> {
                     paymentEntity.setStatus(status);
                     paymentRepository.save(paymentEntity);
-                    log.info("Payment {} status updated to: {}", guid, status);
+                    log.info("Payment with id {} status updated to: {}", guid, status);
                 },
                 () -> log.warn("Payment with id {} not found", guid)
         );
@@ -88,31 +97,43 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public PaymentDto update(UUID id, PaymentDto paymentDto) {
         final var existing = paymentRepository.findByIdWithLock(id)
-            .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id), id, OperationType.UPDATE));
+                .orElseThrow(() -> {
+                    log.warn("Payment with id {} not found", id);
+                    return new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id), id, OperationType.UPDATE);
+                });
 
         paymentPersistenceMapper.updatePaymentEntityFromDto(paymentDto, existing);
 
         final var saved = paymentRepository.save(existing);
+
+        log.debug("Payment with id {} updated", saved.getGuid());
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 
     @Override
     public void delete(UUID id) {
         if (!paymentRepository.existsById(id)) {
+            log.warn("Payment with id {} not found", id);
             throw new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id), id, OperationType.DELETE);
         }
 
+        log.debug("Deleting payment with id {}", id);
         paymentRepository.deleteById(id);
+        log.debug("Payment with id {} deleted", id);
     }
 
     @Override
     @Transactional
     public PaymentDto updateNote(UUID id, String note) {
         final var existing = paymentRepository.findByIdWithLock(id)
-            .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id), id, OperationType.UPDATE));
+                .orElseThrow(() -> {
+                    log.warn("Payment with id {} not found", id);
+                    return new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(id), id, OperationType.UPDATE);
+                });
 
         existing.setNote(note);
         final var saved = paymentRepository.save(existing);
+        log.debug("Payment with id {} updated", saved.getGuid());
         return paymentPersistenceMapper.fromPaymentEntity(saved);
     }
 }
