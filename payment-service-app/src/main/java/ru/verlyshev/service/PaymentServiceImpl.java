@@ -41,7 +41,8 @@ public class PaymentServiceImpl implements PaymentService {
                 .map(paymentPersistenceMapper::fromPaymentEntity)
                 .orElseThrow(() -> {
                             log.warn("Payment with id {} not found", guid);
-                            return new EntityNotFoundException(PAYMENT_NOT_FOUND.formatted(guid), guid, OperationType.FIND);
+                            return new EntityNotFoundException(PAYMENT_NOT_FOUND
+                                    .formatted(guid), guid, OperationType.FIND);
                         }
                 );
 
