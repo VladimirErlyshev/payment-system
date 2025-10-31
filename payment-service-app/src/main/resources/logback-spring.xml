@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATTERN"
+
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %pid ---
+
+[%thread] %-40.40logger{50} : %msg%n" />
+    <!-- STDOUT (консольный апендер) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- FILE с ежедневной ротацией -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <!-- Архив с указанием даты -->
+
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- Сколько файлов хранить -->
+            <maxHistory>7</maxHistory>
+            <!-- Максимальный размер хранилища всех логов
+
+            (необязательно) -->
+
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- Корневой логгер (root) -->
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
