@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Импортируем PID из Spring Environment -->
     <springProperty name="PID" source="PID" defaultValue="unknown"/>
 
-    <!-- Используем ${PID}, а не %PID -->
     <property name="LOG_PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:-unknown} --- [%thread] %-40.40logger{50} : %msg%n"/>
 
