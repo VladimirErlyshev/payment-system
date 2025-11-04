@@ -1,25 +1,29 @@
 package ru.verlyshev.integration.xpayment.async.producer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.verlyshev.async.AsyncBroker;
 import ru.verlyshev.async.AsyncProducer;
 import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class XPaymentAsyncProducer implements AsyncProducer<XPaymentMessage> {
 
-    private final AsyncBroker broker;
-    private final ObjectMapper objectMapper;
+    private final KafkaTemplate<String, XPaymentMessage> kafkaTemplate;
+
+    @Value("${app.kafka.topics.xpayment-adapter.request}")
+    private String topic;
 
     @Override
     public void send(XPaymentMessage message) {
         try {
-            broker.receiveMessage(objectMapper.writeValueAsString(message));
-        } catch (JsonProcessingException e) {
+            log.info("Sending message: {}", message);
+            kafkaTemplate.send(topic, null, message);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,4 +1,22 @@
 spring:
+  kafka:
+    bootstrap-servers: kafka:9093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      group-id: xpayment-adapter-result-consumers
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: "ru.verlyshev.integration.xpayment.dto.XPaymentMessage"
+    listener:
+      ack-mode: manual
+      concurrency: 1
   datasource:
     url: jdbc:postgresql://localhost:5432/payment-db
     username: admin
@@ -20,6 +38,13 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://keycloak:8080/realms/iprody-lms
+
+app:
+  kafka:
+    topics:
+      xpayment-adapter:
+        request: xpayment-adapter.requests
+        response: xpayment-adapter.responses
 
 logging:
   level:
