@@ -20,3 +20,10 @@ spring:
     listener:
       ack-mode: manual
       concurrency: 1
+
+app:
+  kafka:
+    topics:
+      xpayment-adapter:
+        request: xpayment-adapter.requests
+        response: xpayment-adapter.responses
