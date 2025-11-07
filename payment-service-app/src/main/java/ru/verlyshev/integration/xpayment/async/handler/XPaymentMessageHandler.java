@@ -1,12 +1,12 @@
-package ru.verlyshev.integration.payment.service.async.handler;
+package ru.verlyshev.integration.xpayment.async.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.verlyshev.async.MessageHandler;
-import ru.verlyshev.integration.payment.service.dto.XPaymentMessage;
-import ru.verlyshev.integration.payment.service.enums.XPaymentStatus;
+import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
+import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 import ru.verlyshev.service.PaymentService;
 

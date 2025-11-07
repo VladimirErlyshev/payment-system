@@ -12,7 +12,7 @@ import ru.verlyshev.dto.PaymentFilterDto;
 import ru.verlyshev.dto.enums.OperationType;
 import ru.verlyshev.exception.EntityNotFoundException;
 import ru.verlyshev.integration.mapper.XPaymentMessageMapper;
-import ru.verlyshev.integration.payment.service.async.producer.XPaymentAsyncProducer;
+import ru.verlyshev.integration.xpayment.async.producer.XPaymentAsyncProducer;
 import ru.verlyshev.mapper.PaymentFilterPersistenceMapper;
 import ru.verlyshev.mapper.PaymentPersistenceMapper;
 import ru.verlyshev.persistence.entity.PaymentStatus;

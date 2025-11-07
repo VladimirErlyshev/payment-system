@@ -1,4 +1,4 @@
-package ru.verlyshev.integration.payment.service.enums;
+package ru.verlyshev.integration.xpayment.enums;
 
 public enum XPaymentStatus {
     PROCESSING,

@@ -1,4 +1,4 @@
-package ru.verlyshev.integration.payment.service.async.producer;
+package ru.verlyshev.integration.xpayment.async.producer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import ru.verlyshev.async.AsyncProducer;
-import ru.verlyshev.integration.payment.service.dto.XPaymentMessage;
+import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
 
 @Slf4j
 @Component
