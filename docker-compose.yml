@@ -5,11 +5,22 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+      - kafka
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payment-db
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=secret
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  xpayment-adapter-app:
+    image: xpayment-adapter-app
+    ports:
+      - "8088:8088"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
   postgres:
     image: postgres:16
     container_name: postgres_db
@@ -32,9 +43,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@email.com
       PGADMIN_DEFAULT_PASSWORD: admin
-    depends_on:
-      - postgres
-      - kafka
     restart: unless-stopped
 
   keycloak:
