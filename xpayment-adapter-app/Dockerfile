@@ -1,6 +1,6 @@
 FROM eclipse-temurin:23-jre-alpine
 
-ARG JAR_FILE=payment-service-app-3.5.5.jar
+ARG JAR_FILE=xpayment-adapter-app-3.5.5.jar
 
 WORKDIR /app
 

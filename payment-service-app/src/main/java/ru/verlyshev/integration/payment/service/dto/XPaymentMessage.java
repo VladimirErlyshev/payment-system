@@ -1,8 +1,8 @@
-package ru.verlyshev.integration.xpayment.dto;
+package ru.verlyshev.integration.payment.service.dto;
 
 import lombok.Builder;
 import ru.verlyshev.async.AsyncMessage;
-import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
+import ru.verlyshev.integration.payment.service.enums.XPaymentStatus;
 
 import java.math.BigDecimal;
 

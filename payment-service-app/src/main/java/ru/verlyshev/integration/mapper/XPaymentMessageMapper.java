@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
-import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
-import ru.verlyshev.integration.xpayment.enums.XPaymentStatus;
+import ru.verlyshev.integration.payment.service.dto.XPaymentMessage;
+import ru.verlyshev.integration.payment.service.enums.XPaymentStatus;
 import ru.verlyshev.persistence.entity.Payment;
 import ru.verlyshev.persistence.entity.PaymentStatus;
 

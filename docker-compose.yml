@@ -10,6 +10,12 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=secret
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  xpayment-adapter-app:
+    image: xpayment-adapter-app
+    ports:
+      - "8088:8088"
+
   postgres:
     image: postgres:16
     container_name: postgres_db

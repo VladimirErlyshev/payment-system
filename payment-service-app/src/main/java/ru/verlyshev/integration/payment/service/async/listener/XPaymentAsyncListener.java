@@ -1,4 +1,4 @@
-package ru.verlyshev.integration.xpayment.async.listener;
+package ru.verlyshev.integration.payment.service.async.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -7,7 +7,7 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 import ru.verlyshev.async.AsyncListener;
 import ru.verlyshev.async.MessageHandler;
-import ru.verlyshev.integration.xpayment.dto.XPaymentMessage;
+import ru.verlyshev.integration.payment.service.dto.XPaymentMessage;
 
 @Component
 @RequiredArgsConstructor
